@@ -1,0 +1,345 @@
+<device>
+<flat-profile>
+
+
+<!-- ====================== FIRMWARE CONFIG =============================== -->
+<!-- ====================================================================== -->
+<!-- Firmware Upgrade  11-3-1 -->
+<Upgrade_Enable ua="na">Yes</Upgrade_Enable>
+<Upgrade_Error_Retry_Delay ua="na">3600</Upgrade_Error_Retry_Delay>
+<Upgrade_Rule ua="na">
+<!-- http://10.10.30.30/cp/firmware/11.0/88xx/sip88xx.11-0-0MPP-7.loads -->
+</Upgrade_Rule>
+<Log_Upgrade_Request_Msg ua="na">
+$PN $MAC -- Requesting upgrade $SCHEME://$SERVIP:$PORT$PATH
+</Log_Upgrade_Request_Msg>
+<Log_Upgrade_Success_Msg ua="na">
+$PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
+</Log_Upgrade_Success_Msg>
+<Log_Upgrade_Failure_Msg ua="na">$PN $MAC -- Upgrade failed: $ERR</Log_Upgrade_Failure_Msg>
+<!-- ====================================================================== -->
+
+
+<!-- ============================ BASIC CONFIG ============================ -->
+<!-- ====================================================================== -->
+<User_Password />
+<GPP_A ua="na">app v{{ config.APP_VERSION }}</GPP_A>
+<GPP_B ua="na">config module v{{ config.CONFIG_VERSION }}</GPP_B>
+<GPP_C ua="na"> </GPP_C>
+<GPP_D ua="na"> </GPP_D>
+<GPP_E ua="na">{{ agent }}</GPP_E>
+<GPP_F ua="na"> </GPP_F> <!-- Reserved from model based config -->
+<GPP_G ua="na"> </GPP_G>  <!-- Reserved from model based config  -->
+<GPP_H ua="na"> </GPP_H> <!-- Reserved from model based config  -->
+<GPP_I ua="na"> </GPP_I> <!-- Reserved from model based config  -->
+
+<GPP_J ua="na">{{ phone.sys.provision.gppJ }}</GPP_J>
+<GPP_K ua="na">{{ phone.sys.provision.gppK }}</GPP_K>
+<GPP_L ua="na">{{ phone.sys.provision.gppL }}</GPP_L>
+<GPP_M ua="na">{{ phone.sys.provision.gppM }}</GPP_M>
+<GPP_N ua="na">{{ phone.sys.provision.gppN }}</GPP_N>
+<GPP_O ua="na">{{ phone.sys.provision.gppO }}</GPP_O>
+<GPP_P ua="na">{{ phone.sys.provision.gppP }}</GPP_P>
+
+
+<Host_Name ua="rw">cp-3pcc-{{ phone.extension }}</Host_Name>
+<Station_Display_Name ua="na">{{ phone.station_name }}</Station_Display_Name>
+<Miss_Call_Shortcut ua="na">Yes</Miss_Call_Shortcut>
+<Voice_Mail_Number ua="na">*97</Voice_Mail_Number>
+    <Time_Zone ua="na">{{ phone.sys.time.time_zone }}</Time_Zone>
+    <Daylight_Saving_Time_Rule ua="na">{{ phone.sys.time.dst_rsscšule }}</Daylight_Saving_Time_Rule>
+    <Daylight_Saving_Time_Enable ua="na">
+        {% if phone.sys.time.dst_enable %}Yes{% else %}No{% endif %}
+    </Daylight_Saving_Time_Enable>
+<!-- ====================================================================== -->
+
+
+<!-- ======================= BOOT TEXT & WALLPAPER ======================== -->
+<!-- ====================================================================== -->
+{% if phone.sys.boot_text %}
+    <Boot_Display ua="na">Text</Boot_Display>
+    <Text_Logo ua="na">{{ phone.sys.boot_text }}</Text_Logo>
+{% endif %}
+{% if phone.sys.wallpaper %}
+    <Phone_Background ua="rw">Download Picture</Phone_Background>
+    <Picture_Download_URL ua="rw">{{ phone.sys.wallpaper }}</Picture_Download_URL>
+{% endif %}
+<!-- ====================================================================== -->
+
+
+<!-- ========= MAKE SURE PEOPLE CAN SLEEP WITH PHONE IN ROOM ============== -->
+<!-- ====================================================================== -->
+<Back_Light_Timer ua="na">{% if phone.dark_room %}15{% else %}Always On{% endif %}</Back_Light_Timer>
+<Display_Brightness ua="rw">15</Display_Brightness>
+<!-- ====================================================================== -->
+
+
+<!-- ========== IN CASE WE NEED TO REMOTE CONFIG THE PHONE - CYA ========== -->
+<!-- ====================================================================== -->
+<Enable_Web_Server ua="na">Yes</Enable_Web_Server>
+<Enable_Protocol ua="na">Http</Enable_Protocol>
+<Enable_Direct_Action_Url ua="na">Yes</Enable_Direct_Action_Url>
+<Web_Server_Port ua="na">80</Web_Server_Port>
+<Enable_Web_Admin_Access ua="na">Yes</Enable_Web_Admin_Access>
+<TLS_Cipher_List ua="na"/>
+<Firewall ua="na">Disabled</Firewall>
+<!-- ====================================================================== -->
+
+
+{% if phone.wifi %}
+<!-- =========== BASIC WIFI IF PHONE SUPPORTS && NEED IT ================== -->
+<!-- ====================================================================== -->
+    <Phone-wifi-on ua="rw">On</Phone-wifi-on>
+    <!--  Wi-Fi Profile 1  -->
+    <Network_Name_1_ ua="rw">{{ phone.wifi.ssid }}</Network_Name_1_>
+    <Security_Mode_1_ ua="rw">{{ phone.wifi.security }}</Security_Mode_1_>
+    <PSK_Passphrase_1_ ua="rw">{{ phone.wifi.psk }}</PSK_Passphrase_1_>
+    <Wi-Fi_User_ID_1_ ua="rw">{{ phone.wifi.user }}</Wi-Fi_User_ID_1_>
+    <Wi-Fi_Password_1_ ua="rw">{{ phone.wifi.password }}</Wi-Fi_Password_1_>
+<!-- ====================================================================== -->
+{% endif %}
+
+
+<!-- ========================== NETWORK SERVICES ========================== -->
+<!-- ====================================================================== -->
+<Domain ua="rw">{{ phone.sys.domain }}</Domain>
+<Syslog_Server ua="na">{{ phone.sys.syslog }}</Syslog_Server>
+<Syslog_Identifier ua="na">$MAU</Syslog_Identifier>
+<Primary_NTP_Server ua="na">{{ phone.sys.ntp1 }}</Primary_NTP_Server>
+<Secondary_NTP_Server ua="na">{{ phone.sys.ntp2 }}</Secondary_NTP_Server>
+<Use_Config_TOS ua="na">No</Use_Config_TOS>
+<!-- ====================================================================== -->
+
+
+<!-- ======================== PHONE FEATURE CODES ========================= -->
+<!-- ====================================================================== -->
+<Call_Park_Code ua="rw">*68</Call_Park_Code>
+<Call_Unpark_Code ua="rw">*88</Call_Unpark_Code>
+<Call_Pickup_Code ua="rw">*97</Call_Pickup_Code>
+<Call_Return_Code ua="na">*69</Call_Return_Code>
+<Blind_Transfer_Code ua="na">##</Blind_Transfer_Code>
+<Cfwd_All_Act_Code ua="na">*72</Cfwd_All_Act_Code>
+<Cfwd_All_Deact_Code ua="na">*73</Cfwd_All_Deact_Code>
+<Cfwd_Busy_Act_Code ua="na">*90</Cfwd_Busy_Act_Code>
+<Cfwd_Busy_Deact_Code ua="na">*91</Cfwd_Busy_Deact_Code>
+<Cfwd_No_Ans_Act_Code ua="na">*52</Cfwd_No_Ans_Act_Code>
+<Cfwd_No_Ans_Deact_Code ua="na">*53</Cfwd_No_Ans_Deact_Code>
+<CW_Act_Code ua="na">*70</CW_Act_Code>
+<CW_Deact_Code ua="na">*71</CW_Deact_Code>
+<CW_Per_Call_Act_Code ua="na"/>
+<CW_Per_Call_Deact_Code ua="na"/>
+<Block_CID_Act_Code ua="na">*61</Block_CID_Act_Code>
+<Block_CID_Deact_Code ua="na">*62</Block_CID_Deact_Code>
+<Block_CID_Per_Call_Act_Code ua="na">*81</Block_CID_Per_Call_Act_Code>
+<Block_CID_Per_Call_Deact_Code ua="na">*82</Block_CID_Per_Call_Deact_Code>
+<Block_ANC_Act_Code ua="na">*77</Block_ANC_Act_Code>
+<Block_ANC_Deact_Code ua="na">*87</Block_ANC_Deact_Code>
+<DND_Act_Code ua="na">*78</DND_Act_Code>
+<DND_Deact_Code ua="na">*79</DND_Deact_Code>
+<Secure_All_Call_Act_Code ua="na"/>
+<Secure_No_Call_Act_Code ua="na"/>
+<Secure_One_Call_Act_Code ua="na"/>
+<Secure_One_Call_Deact_Code ua="na"/>
+<Paging_Code ua="na"/>
+<Call_Park_Code ua="rw">*88</Call_Park_Code>
+<Call_Pickup_Code ua="rw">**</Call_Pickup_Code>
+<Call_Unpark_Code ua="rw">*85</Call_Unpark_Code>
+<Group_Call_Pickup_Code ua="na">**</Group_Call_Pickup_Code>
+<!--  Below codes only in 88xx series, not 78xx  -->
+<!-- Exec_Assistant_Call_Initiate_Code ua="na"/> -->
+<!-- Exec_Call_Filter_Act_Code ua="na"/> -->
+<!-- Exec_Call_Filter_Deact_Code ua="na"/> -->
+<!-- Exec_Assistant_Call_Push_Code ua="na"/> -->
+<!-- Exec_Call_Retrieve_Code ua="na"/> -->
+<!-- Exec_Call_Bridge_Code ua="na"/> -->
+<Referral_Services_Codes ua="na"/>
+<Feature_Dial_Services_Codes ua="na">*80</Feature_Dial_Services_Codes>
+<!-- ====================================================================== -->
+
+
+<!-- =============== CHECK DEFAULTS MAYBE WE DO NOT NEED ================== -->
+<!-- ====================================================================== -->
+<Conference_Serv ua="na">Yes</Conference_Serv>
+<Attn_Transfer_Serv ua="na">Yes</Attn_Transfer_Serv>
+<Blind_Transfer_Serv ua="na">Yes</Blind_Transfer_Serv>
+<DND_Serv ua="na">Yes</DND_Serv>
+<Block_ANC_Serv ua="na">Yes</Block_ANC_Serv>
+<Block_CID_Serv ua="na">Yes</Block_CID_Serv>
+<Secure_Call_Serv ua="na">Yes</Secure_Call_Serv>
+<Cfwd_All_Serv ua="na">Yes</Cfwd_All_Serv>
+<Cfwd_Busy_Serv ua="na">Yes</Cfwd_Busy_Serv>
+<Cfwd_No_Ans_Serv ua="na">Yes</Cfwd_No_Ans_Serv>
+<Paging_Serv ua="na">Yes</Paging_Serv>
+<Call_Park_Serv ua="na">Yes</Call_Park_Serv>
+<Call_Pick_Up_Serv ua="na">Yes</Call_Pick_Up_Serv>
+<ACD_Login_Serv ua="na">No</ACD_Login_Serv>
+<Group_Call_Pick_Up_Serv ua="na">Yes</Group_Call_Pick_Up_Serv>
+<Service_Annc_Serv ua="na">No</Service_Annc_Serv>
+<Call_Recording_Serv ua="na">No</Call_Recording_Serv>
+<Reverse_Phone_Lookup_Serv ua="na">Yes</Reverse_Phone_Lookup_Serv>
+<!-- ====================================================================== -->
+
+
+<!-- ========================== CHECK-INS ================================= -->
+<!-- ====================================================================== -->
+<Provision_Enable ua="na">Yes</Provision_Enable>
+<Resync_On_Reset ua="na">Yes</Resync_On_Reset>
+<Resync_Random_Delay ua="na">2</Resync_Random_Delay>
+<Resync_At__HHmm_ ua="na">0400</Resync_At__HHmm_>
+<Resync_At_Random_Delay ua="na">600</Resync_At_Random_Delay>
+<Resync_Periodic ua="na">0</Resync_Periodic>
+<Resync_Error_Retry_Delay ua="na">
+60,120,240,480,960,1920,3840,7680,15360,30720,61440,86400
+</Resync_Error_Retry_Delay>
+<Forced_Resync_Delay ua="na">14400</Forced_Resync_Delay>
+<Resync_From_SIP ua="na">Yes</Resync_From_SIP>
+<Resync_After_Upgrade_Attempt ua="na">Yes</Resync_After_Upgrade_Attempt>
+<Resync_Trigger_1 ua="na"/>
+<Resync_Trigger_2 ua="na"/>
+<User_Configurable_Resync ua="na">Yes</User_Configurable_Resync>
+<Resync_Fails_On_FNF ua="na">Yes</Resync_Fails_On_FNF>
+<Profile_Authentication_Type ua="na">Basic Http Authentication</Profile_Authentication_Type>
+<Profile_Rule ua="na">{{ phone.sys.provision.rule }}</Profile_Rule>
+<Profile_Rule_B ua="na">{{ phone.sys.provision.ruleB }}</Profile_Rule_B>
+<Profile_Rule_C ua="na">{{ phone.sys.provision.ruleC }}</Profile_Rule_C>
+<Profile_Rule_D ua="na">{{ phone.sys.provision.ruleD }}</Profile_Rule_D>
+<DHCP_Option_To_Use ua="na">{{ phone.sys.provision.dhcpOptionsV4 }}</DHCP_Option_To_Use>
+<DHCPv6_Option_To_Use ua="na">{{ phone.sys.provision.dhcpOptionsV6 }}</DHCPv6_Option_To_Use>
+<!-- ====================================================================== -->
+
+
+<!-- ==================== VARIOUS 3RD PARTY INTERFACES ==================== -->
+<!-- ====================================================================== -->
+<Control_Server_URL ua="na"/>
+<Allowed_APIs ua="na">.*</Allowed_APIs>
+<Page_Service_URL ua="na"/>
+<XML_Directory_Service_Name ua="na">{{ phone.sys.directory.name }}</XML_Directory_Service_Name>
+<XML_Directory_Service_URL ua="na">{{ phone.sys.directory.url }}</XML_Directory_Service_URL>
+<XML_Application_Service_Name ua="na"/>
+<XML_Application_Service_URL ua="na"/>
+<XML_User_Name ua="na"/>
+<!-- ====================================================================== -->
+
+
+<!-- ===================== MULTICAST PAGING GROUPS ======================== -->
+<!-- ====================================================================== -->
+{% for group in phone.sys.pageGroups %}
+    <Group_{{ loop.index }}_Paging_Script ua="na">{{ group }}</Group_{{ loop.index }}_Paging_Script>
+{% endfor %}
+<!-- ====================================================================== -->
+
+
+<!-- ============================ LINE BUTTONS ============================ -->
+<!-- ====================================================================== -->
+{% for l in phone.lines %}
+    <!--  Line Key {{ l.button }} (Line) -->
+    <Extension_{{ l.button }}_ ua="na">{{ l.button }}</Extension_{{ l.button }}_>
+    <Short_Name_{{ l.button }}_ ua="na">{{ l.short_name }}</Short_Name_{{ l.button }}_>
+    <Extended_Function_{{ l.button }}_ ua="na"/>
+{% endfor %}
+<!-- ====================================================================== -->
+
+
+<!-- =========================== FUNC BUTTONS ============================= -->
+<!-- ====================================================================== -->
+{% for b in phone.buttons %}
+    <!--  Line Key {{ b.button }} (Func) -->
+    <Extension_{{ b.button }}_ ua="na">Disabled</Extension_{{ b.button }}_>
+    <Short_Name_{{ b.button }}_ ua="na">$USER</Short_Name_{{ b.button }}_>
+    <Extended_Function_{{ b.button }}_ ua="na">{{ b.func }}</Extended_Function_{{ b.button }}_>
+{% endfor %}
+<!-- ====================================================================== -->
+
+
+<!-- =========================== BLANK BUTTONS ============================ -->
+<!-- ====================================================================== -->
+{% for i in phone.all_blanks %}
+    <!--  Line Key {{ i }} (Blank) -->
+    <Extension_{{ i }}_ ua="na">Disabled</Extension_{{ i }}_>
+    <Short_Name_{{ i }}_ ua="na">$USER</Short_Name_{{ i }}_>
+    <Extended_Function_{{ i }}_ ua="na"></Extended_Function_{{ i }}_>
+{% endfor %}
+<!-- ====================================================================== -->
+
+
+<!-- ====================== CONFIGURE SIP LINES =========================== -->
+<!-- ====================================================================== -->
+{% for l in phone.lines %}
+    <!--  LINE #{{ l.button }}  -->
+    <Line_Enable_{{ l.button }}_ ua="na">Yes</Line_Enable_{{ l.button }}_>
+    <Register_{{ l.button }}_ ua="na">Yes</Register_{{ l.button }}_>
+    <Display_Name_{{ l.button }}_ ua="na">{{ l.label }}</Display_Name_{{ l.button }}_>
+    
+    <!-- SIP Basics -->
+    <Proxy_{{ l.button }}_ ua="na">{{ l.server }}</Proxy_{{ l.button }}_>
+    <Outbound_Proxy_{{ l.button }}_ ua="na">{{ l.server }}</Outbound_Proxy_{{ l.button }}_>
+    <User_ID_{{ l.button }}_ ua="na">{{ phone.extension }}</User_ID_{{ l.button }}_>
+    <Auth_ID_{{ l.button }}_ ua="na">{{ phone.extension }}</Auth_ID_{{ l.button }}_>
+    <Password_{{ l.button }}_ ua="na">{{ l.secret }}</Password_{{ l.button }}_>
+    <Voice_Mail_Server_{{ l.button }}_ ua="na">
+        {{ l.server }}
+    </Voice_Mail_Server_{{ l.button }}_>
+
+    <!-- Line Options -->
+    {% if l.default_ring %}
+    <Default_Ring_{{ l.button }}_ ua="rw">
+        {{ l.default_ring }}
+    </Default_Ring_{{ l.button }}_>
+    {% endif %}
+    {% if l.hideMissed %}
+        <Log_Missed_Calls_for_EXT_{{ l.button }} ua="na">
+            No
+        </Log_Missed_Calls_for_EXT_{{ l.button }}>
+    {% endif %}
+{% endfor %}
+
+<!-- Blanks -->
+{% for i in phone.blank_lines %}
+    <!--  LINE #{{ i }}  -->
+    <Line_Enable_{{ i }}_ ua="na">No</Line_Enable_{{ i }}_>
+{% endfor %}
+
+<!-- ====================================================================== -->
+
+
+<!-- =============================== KEM ================================== -->
+<!-- ====================================================================== -->
+{% if phone.kem %}
+
+    <Use_Line_Keys_For_BLF_List ua="na">Yes</Use_Line_Keys_For_BLF_List>
+    <BLF_Label_Display_Mode ua="na">Name</BLF_Label_Display_Mode>
+    <Number_of_Units ua="na">{{ phone.kem.number_of_units }}</Number_of_Units>
+    <Server_Type ua="na"> {{ phone.kem.server_type }} </Server_Type>
+    <KEM_Type ua="na">{{ phone.kem.model }}</KEM_Type>
+    <BLF_Label_Display_Mode ua="na">Both</BLF_Label_Display_Mode>
+
+    {% for u in phone.kem.units %}
+        <!-- KEM Buttons per unit -->
+        {% for b in u.buttons %}
+            <Unit_{{ u.unit }}_Key_{{ b.button }}_ ua="na">
+                {{ b.func }}
+            </Unit_{{ u.unit }}_Key_{{ b.button }}_>
+        {% endfor %}
+        <!-- Blanks per unit -->
+        {% for b in u.blanks %}
+            <Unit_{{ u.unit }}_Key_{{ b.button }}_ ua="na"/>
+        {% endfor %}
+    {% endfor %}
+
+{% endif %}
+
+<!-- ====================================================================== -->
+
+
+{% if phone.additional_template %}
+<!-- ======================== Additional Config =========================== -->
+<!-- ====================================================================== -->
+
+    {% include phone.additional_template_file %}
+
+<!-- ====================================================================== -->
+{% endif %}
+
+
+</flat-profile>
+</device>

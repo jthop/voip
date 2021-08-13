@@ -1,0 +1,69 @@
+CP-8841-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 10
+    video: false
+    wifi: false
+    bluetooth: true
+
+CP-8851-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 10
+    video: false
+    wifi: false
+    bluetooth: true
+    units: 2
+    kem: 
+      model: CP-8800-Audio
+      buttons: 28
+      units: 2
+
+CP-8861-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 10
+    video: false
+    wifi: false
+    bluetooth: true
+    units: 3
+    kem: 
+      model: CP-8800-Audio
+      buttons: 28
+      units: 3
+
+CP-8845-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 10
+    video: true
+    wifi: false
+    bluetooth: false
+
+CP-8865-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 10
+    video: true
+    wifi: true
+    bluetooth: true
+    kem: 
+      model: CP-8800-Video
+      buttons: 36
+      units: 3
+
+CP-7821-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 2
+    video: false
+    wifi: false
+    bluetooth: false
+
+CP-7841-3PCC:
+  template: cisco_v1.xml
+  features:
+    buttons: 4
+    video: false
+    wifi: false
+    bluetooth: false

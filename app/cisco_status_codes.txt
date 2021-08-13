@@ -1,0 +1,42 @@
+301 Moved Permanently
+This and future requests should be directed to a new location.
+Retry request immediately with new location.
+
+302 Found
+Known as Temporarily Moved.
+Retry request immediately with new location.
+
+400 Bad Request
+The request cannot be fulfilled due to bad syntax.
+
+401 Unauthorized
+Basic or digest access authentication challenge.
+Immediately retry request with authentication credentials. Maximum 2 retries. Upon failure, the phone behavior is C.
+
+403 Forbidden
+Server refuses to respond.
+
+404 Not Found
+Requested resource not found. Subsequent requests by client are permissible.
+
+407 Proxy Authentication Required
+Basic or digest access authentication challenge.
+Immediately retry request with authentication credentials. Maximum two retries. Upon failure, the phone behavior is C.
+
+
+500 Internal Server Error
+Generic error message.
+
+501 Not Implemented
+The server does not recognize the request method, or it lacks the ability to fulfill the request.
+Phone behavior is C.
+
+502 Bad Gateway
+The server is acting as a gateway or proxy and receives an invalid response from the upstream server.
+
+503 Service Unavailable
+The server is currently unavailable (overloaded or down for maintenance). This is a temporary state.
+
+504 Gateway Timeout
+The server behaves as a gateway or proxy and does not receive timely response from the upstream server.
+

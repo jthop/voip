@@ -1,0 +1,271 @@
+phones:
+  default:
+    model: CP-8841-3PCC
+    alternate_config: 'alternate/default.xml'
+
+  00451D0F67E5:
+    mac: 00451D0F67E5
+    serial: FCH2228E7MY
+    model: CP-8865-3PCC
+    ip: '10.10.30.101'
+    #wifi: jamie
+    location: Study
+    extension: 101
+    did: '214.444.9969'
+    additional_config: 'additional/jamie.xml'
+    buttons:
+      '1':
+        line: 101@10.10.30.30
+        secret: 101
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '2':
+        line: 101@10.10.20.10
+        secret: 101
+        label: Control4
+        hideMissed: True
+        ring: No Ring
+        serverType: Others
+      '3':
+        func: fnc=sd;ext=2145467055;nme=Mommy Cell
+      '4':
+        func: fnc=sd;ext=2144570933;nme=Dad Cell
+      '5':
+        func: fnc=sd;ext=2143940172;nme=Mom Cell
+      '9':
+        func: fnc=sd;ext=321@$PROXY;nme=Overhead Paging (321)
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+
+  706E6D10DF74:                  
+    mac: 706E6D10DF74
+    serial: FCH2123D2HC
+    model: CP-8851-3PCC
+    ip: '10.10.30.102'
+    extension: 102
+    location: Mommy Office
+    did: '214.444.9979'
+    buttons:
+      '1':
+        line: 102@10.10.30.30
+        secret: 102
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '2':
+        line: 102@10.10.20.10
+        secret: 102
+        label: Control4
+        hideMissed: True
+        ring: No Ring
+        serverType: Others
+      '3': 
+        func: fnc=sd;ext=701;nme=Daddy All
+      '4':
+        func: fnc=sd;ext=2144153735;nme=Daddy Cell
+      '5':
+        func: fnc=sd;ext=5127334797;nme=Momma
+      '6':
+        func: fnc=sd;ext=8066797995;nme=Dad
+      '7':
+        func: fnc=sd;ext=5125891315;nme=Christen
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+    kem:
+      model: CP-8800-Audio
+      units:
+        - unit: 1
+          buttons:
+            '1': fnc=blf+sd+cp;sub=101@$PROXY;ext=101;nme=Study
+            '2': fnc=blf+sd+cp;sub=102@$PROXY;ext=102;nme=Mommy Office
+            '3': fnc=blf+sd+cp;sub=103@$PROXY;ext=103;nme=Kitchen
+            '4': fnc=blf+sd+cp;sub=105@$PROXY;ext=105;nme=Garage            
+            '5': fnc=blf+sd+cp;sub=201@$PROXY;ext=201;nme=Daddy Bed
+            '6': fnc=blf+sd+cp;sub=202@$PROXY;ext=202;nme=Mommy Bed
+            '7': fnc=blf+sd+cp;sub=205@$PROXY;ext=205;nme=James
+            '8': fnc=blf+sd+cp;sub=208@$PROXY;ext=208;nme=Exercise
+            '9': fnc=blf+sd+cp;sub=209@$PROXY;ext=209;nme=Guest
+            '10': fnc=blf+sd+cp;sub=301@$PROXY;ext=301;nme=Datacenter
+            '11': fnc=blf+sd+cp;sub=302@$PROXY;ext=302;nme=Megahertz
+            '12': fnc=blf+sd+cp;sub=310@$PROXY;ext=310;nme=Jamie Computer
+
+  7001B5DD4FAC:
+    mac: 7001B5DD4FAC
+    serial: FCH2217E9U
+    model: CP-8841-3PCC
+    ip: '10.10.30.103'
+    extension: 103
+    location: Kitchen
+    buttons:
+      '1':
+        line: 103@10.10.30.30
+        secret: 103
+        # proxy: if you need a different proxy put address here
+        label: $EXTENSION
+      '2':
+        line: 103@10.10.20.10
+        secret: 103
+        label: Control4
+        hideMissed: True
+        ring: No Ring
+        serverType: Others
+      '3': 
+        func: fnc=sd;ext=701;nme=Daddy All
+      '4':
+        func: fnc=sd;ext=702;nme=Mommy All
+      '9':
+        func: fnc=sd;ext=321@$PROXY;nme=Overhead Paging (321)
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+
+  00AA6E203C07:
+    mac: 00AA6E203C07
+    serial: WZP22291HE1
+    model: CP-7841-3PCC
+    ip: '10.10.30.105'
+    extension: 105
+    pwd: 105
+    location: Garage
+
+  700B4F7BE64E:
+    mac: 700B4F7BE64E
+    serial: FCH2244D1CU
+    model: CP-8865-3PCC
+    ip: '10.10.30.121'
+    extension: 201
+    location: Daddy Bed
+    did: '214.444.9969'
+    darkRoom: True
+    buttons:
+      '1':
+        line: 201@10.10.30.30
+        secret: 201
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '2':
+        line: 201@10.10.20.10
+        secret: 201
+        label: Control4
+        hideMissed: true
+        ring: No Ring
+        serverType: Others
+      '3':
+        func: fnc=sd;ext=2145467055;nme=Mommy Cell
+      '4':
+        func: fnc=sd;ext=2144570933;nme=Dad Cell
+      '5':
+        func: fnc=sd;ext=2143940172;nme=Mom Cell
+      '9':
+        func: fnc=sd;ext=321@$PROXY;nme=Overhead Paging (321)
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+
+  706E6D10E104:
+    mac: 706E6D10E104
+    serial: FCH2123D2P8
+    model: CP-8851-3PCC
+    ip: '10.10.30.122'
+    extension: 202
+    location: Mommy Bed
+    did: '214.444.9979'
+    darkRoom: True
+    buttons:
+      '1':
+        line: 202@10.10.30.30
+        secret: 202
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '2':
+        line: 202@10.10.20.10
+        secret: 202
+        label: Control4
+        hideMissed: true
+        ring: No Ring
+        serverType: Others
+      '3':
+        func: fnc=sd;ext=2145467055;nme=Mommy Cell
+      '4':
+        func: fnc=sd;ext=2144570933;nme=Dad Cell
+      '5':
+        func: fnc=sd;ext=2143940172;nme=Mom Cell
+      '9':
+        func: fnc=sd;ext=321@$PROXY;nme=Overhead Paging (321)
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+
+  00AA6E203B91:
+    mac: 00AA6E203B91
+    serial: WZP22291HAK
+    model: CP-7841-3PCC
+    ip: '10.10.30.125'
+    extension: 205
+    location: James
+    did: '214.444.9940'
+    darkRoom: True
+    buttons:
+      '1':
+        line: 205@10.10.30.30
+        secret: 205
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '3':
+        func: fnc=sd;ext=701@$PROXY;nme=Daddy (701)
+      '4':
+        func: fnc=sd;ext=702@$PROXY;nme=Mommy (702)
+
+  7001B5DD4DAE:
+    mac: 7001B5DD4DAE
+    extension: 208
+    pwd: 208
+    location: Exercise
+
+  4C710C4DAF6C:
+    mac: 4C710C4DAF6C
+    serial: WZP23391EQN
+    model: CP-7821-3PCC
+    ip: '10.10.30.129'
+    extension: 209
+    location: Guest
+    did: '214.444.5509'
+    darkRoom: True
+
+  2C0BE9050373:
+    mac: 2C0BE9050373
+    serial: FCH2047F1RS
+    model: CP-8841-3PCC
+    ip: '10.10.30.131'
+    extension: 301
+    location: Datacenter
+    did: '214.444.9969'
+    buttons:
+      '1':
+        line: 301@10.10.30.30
+        secret: 301
+        # proxy: if you need a different proxy put address here
+        label: $DID
+      '2':
+        line: 301@10.10.20.10
+        secret: 301
+        label: Control4
+        hideMissed: True
+        ring: No Ring
+        serverType: Others
+      '3':
+        func: fnc=sd;ext=2145467055;nme=Mommy Cell
+      '4':
+        func: fnc=sd;ext=2144570933;nme=Dad Cell
+      '5':
+        func: fnc=sd;ext=2143940172;nme=Mom Cell
+      '9':
+        func: fnc=sd;ext=321@$PROXY;nme=Overhead Paging (321)
+      '10':
+        func: fnc=sd;ext=801@$PROXY;nme=Page All (801)
+
+  2C0BE905051D:
+    MAC: 2C0BE905051D
+    serial: FCH2047F24A
+    model: CP-8841-3PCC
+    extension: 401
+    pwd: 401
+    location: Jim
+    did: '469.846.0933'
+    remote: True

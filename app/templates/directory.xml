@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<CiscoIPPhoneDirectory>
+	<DirectoryEntry>
+		<Name>Daddy</Name>
+		<Telephone>701</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Mommy</Name>
+		<Telephone>702</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>James</Name>
+		<Telephone>205</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Megahertz</Name>
+		<Telephone>302</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Page All</Name>
+		<Telephone>801</Telephone>
+	</DirectoryEntry>
+
+	<DirectoryEntry>
+		<Name>Daddy Cell</Name>
+		<Telephone>2144153735</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Mommy Cell</Name>
+		<Telephone>2145467055</Telephone>
+	</DirectoryEntry>
+    
+	<DirectoryEntry>
+		<Name>Daddy Office</Name>
+		<Telephone>101</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Mommy Office</Name>
+		<Telephone>102</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Kitchen</Name>
+		<Telephone>103</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Loggia</Name>
+		<Telephone>104</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Garage</Name>
+		<Telephone>105</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Daddy Bed</Name>
+		<Telephone>201</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Mommy Bed</Name>
+		<Telephone>202</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Master Bath</Name>
+		<Telephone>203</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Mommy Closet</Name>
+		<Telephone>204</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Gameroom</Name>
+		<Telephone>207</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Exercise</Name>
+		<Telephone>208</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Guest</Name>
+		<Telephone>209</Telephone>
+	</DirectoryEntry>  
+	<DirectoryEntry>
+		<Name>Datacenter</Name>
+		<Telephone>301</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>310</Name>
+		<Telephone>Daddy Computer</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Daddy Cell</Name>
+		<Telephone>311</Telephone>
+	</DirectoryEntry>
+
+	<DirectoryEntry>
+		<Name>Wakeup</Name>
+		<Telephone>*68</Telephone>
+	</DirectoryEntry>  
+	<DirectoryEntry>
+		<Name>Time</Name>
+		<Telephone>8463</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>News</Name>
+		<Telephone>951</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Weather</Name>
+		<Telephone>947</Telephone>
+	</DirectoryEntry>
+	<DirectoryEntry>
+		<Name>Local Test</Name>
+		<Telephone>*43</Telephone>	
+	</DirectoryEntry>
+	<DirectoryEntry>
+        	<Name>Remote Test</Name>
+        	<Telephone>8042221111</Telephone>
+        </DirectoryEntry>
+</CiscoIPPhoneDirectory>
