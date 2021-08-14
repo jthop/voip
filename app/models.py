@@ -37,6 +37,8 @@ ALLOWED_SECURITY_MODES = {'Auto', 'EAP-FAST', 'PEAP-GTC', 'PEAP-MSCHAPV2', 'PSK'
 EPOCH = datetime(1970, 1, 1, 0, 0)
 
 
+__version__ = '1.7'
+
 """
 ===================================
           KEM classes
@@ -130,7 +132,7 @@ class Phone(Model):
         write_capacity_units = 5
         read_capacity_units = 5
         # All your metadata are belong to us - above belong to pynamodb 
-        __version__ = '1.5'
+        __version__ = '1.7'
 
     __version__ = UnicodeAttribute(null=True, default=Meta.__version__)
     __id__ = UUIDAttribute(default=uuid4())
@@ -157,9 +159,17 @@ class Phone(Model):
     updated_at = UTCDateTimeAttribute(default=EPOCH)
 
     def __init__(self, *args, **kwargs):
+        """
+        unused - Override .__init__()
+        """
+        
         super().__init__(*args, **kwargs)
     
     def save(self, *args, **kwargs):
+        """
+        unused - overloaded .save()
+        """
+        
         self.__id__ = uuid4()
         return super().save(*args, **kwargs)
 
@@ -169,6 +179,16 @@ class Phone(Model):
 
     @classmethod
     def get(cls, *args, **kwargs):
+        """
+        overloaded .get() - This is run each tiem a record is looked up.
+        This is the perfect location to hook in our custom record
+        altering code.
+
+        returns:
+        model instance with the requested record
+
+        """
+        
         phone = super().get(*args, **kwargs)
         if config.CONTAINER:
             phone._agent = request.headers.get('User-Agent')
@@ -216,18 +236,48 @@ class Phone(Model):
 
     @property
     def sys(self):
+        """
+        Getter for private variable sys.  This includes the site specififc
+        config.
+        """
+        
         return self._sys
 
     @property
     def features(self):
+        """
+        Getter for private variable features.  These include  all
+        model-specific config.
+
+        """
+        
         return self._features
 
     @property
     def template(self):
+        """
+        returns:
+
+        Flask friendly file path that can be used to load the template.
+
+        """
+        
         return self._template
 
     @property
     def additional_template_file(self):
+        """
+        Additional_template_file is used when a user demands config
+        beyond the standard template, but they do want the standard
+        features as well.  When standard config is complete we will
+        provide the config from their additional template.
+
+        returns:
+
+        The filepath to their required template.  The file is guaranteed
+        to exist.
+        """
+
         filepath = (
             Path(config.ADDITIONAL_TEMPLATE) / self.additional_template)
         if filepath.is_file():
@@ -241,6 +291,17 @@ class Phone(Model):
 
     @property
     def alternate_template_file(self):
+        """
+        alterenate_template_file is used in cases where the users requires
+        a completely different template than the standard one for their
+        phone.
+
+        returns:
+
+        The filepath to their required template.  The file is guaranteed
+        to exist.
+        """
+        
         filepath = (
             Path(config.ALTERNATE_TEMPLATE) / self.alternate_template)
         if filepath.is_file():
@@ -298,5 +359,5 @@ class Phone(Model):
 
         return sorted(set(avail_nums).difference(all_nums))
 
-if not Phone.exists():
-    Phone.create_table(wait=True)
+# if not Phone.exists():
+#     Phone.create_table(wait=True)

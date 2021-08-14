@@ -18,4 +18,5 @@ ENV INSIDE_CONTAINER Yes
 # healthcheck uri ping - uses curl
 HEALTHCHECK CMD curl --fail http://localhost/_health/self || exit 1   
 
-CMD ["gunicorn"  , "--bind", "0.0.0.0:80", "--access-logfile", "-", "main:app"]
+#CMD ["gunicorn"  , "--bind", "0.0.0.0:80", "--access-logfile", "-", "main:app"]
+CMD ["gunicorn"  , "--config", "/app/gunicorn.conf.py", "main:app"]

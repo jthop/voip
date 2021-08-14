@@ -21,10 +21,10 @@ from flask.logging import default_handler
 
 import models
 import config
+import elapsed_time
 
 from last_bump import version as __version__
 from last_bump import hexdigest
-
 
 
 ###########################################
@@ -36,14 +36,11 @@ class XMLResponse(Response):
 class XMLFlask(Flask):
     response_class = XMLResponse
 
-app = XMLFlask(__name__, static_url_path='/static')
+app = XMLFlask(config.APP_NAME, static_url_path='/static')
 
-
-# creates a Flask application, named app
-#app = Flask(__name__, static_url_path='/static')
 app.config['APP_VERSION'] = __version__
 app.config['CONFIG_VERSION'] = config.__version__
-
+app.config['MODEL_VERSION'] = models.Phone.Meta.__version__
 
 logging.basicConfig(
     format=config.LOG_FORMAT,
@@ -53,26 +50,29 @@ logging.basicConfig(
 pynamodb_logger = logging.getLogger("pynamodb")
 pynamodb_logger.addHandler(default_handler)
 
-app_logger = logging.getLogger(__name__)
-app_logger.debug('next line main')
-app_logger.debug(__name__)
+gunicorn_logger = logging.getLogger("gunicorn.access")
+gunicorn_logger.addHandler(default_handler)
+
+app_logger = logging.getLogger(config.APP_NAME)
+
 
 ###########################################
 
 
-app.logger.info('======================================')
-app.logger.info(f'nps v{__version__}')
-app.logger.info('by @jthop <jh@mode14.com>')
-app.logger.info('--------------------------------------')
-app.logger.info(f'blake2b hash { hexdigest }')
-app.logger.info(f'config v{ config.__version__ }')
-app.logger.info('--------------------------------------')
-app.logger.info(f'python v{ config.ver["python_version"] }')
-app.logger.info(f'environment: pip v{ config.ver["pip_version"] }')
-app.logger.info(f'flask v{ config.ver["flask_version"] }')
-app.logger.info(f'wsgi: { config.ver["server_software"] }')
-app.logger.info(f'docker host: { config.docker_host }')
-app.logger.info('======================================')
+app.logger.info('====================================')
+app.logger.info(f' nps v{__version__}')
+app.logger.info(' by @jthop <jh@mode14.com>')
+app.logger.info('------------------------------------')
+app.logger.info(f' blake2b hash: { hexdigest }')
+app.logger.info(f' config v{ config.__version__ }')
+app.logger.info(f' dynamodb model v{ models.Phone.Meta.__version__ }')
+app.logger.info('------------------------------------')
+app.logger.info(f' python v{ config.ver["python_version"] }')
+app.logger.info(f' environment: pip v{ config.ver["pip_version"] }')
+app.logger.info(f' flask v{ config.ver["flask_version"] }')
+app.logger.info(f' wsgi: { config.ver["server_software"] }')
+app.logger.info(f' docker host: { config.docker_host }')
+app.logger.info('====================================')
 
 # agent
 # Cisco-CP-8841-3PCC/11.0 (00562b043615)
@@ -92,6 +92,7 @@ def CP_PSN():
 
 
 @app.route('/cp/conf/<mac>.xml')
+@elapsed_time.print_elapsed_time
 def MAU(mac):
     try:
         phone = models.Phone.get(mac)
@@ -147,5 +148,9 @@ def healthcheck(patient='vagrant'):
     health checks for docker
     '''
 
-    app.logger.info(f'HEALTHCHECK for: <{patient}> returned 200')
+    #app.logger.info(f'HEALTHCHECK for: <{patient}> returned 200')
     return jsonify({'success': True})
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=7000)

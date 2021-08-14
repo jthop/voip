@@ -1,3 +1,4 @@
+{% set template_version = '3.1' %}
 <device>
 <flat-profile>
 
@@ -24,14 +25,14 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <!-- ====================================================================== -->
 <User_Password />
 <GPP_A ua="na">app v{{ config.APP_VERSION }}</GPP_A>
-<GPP_B ua="na">config module v{{ config.CONFIG_VERSION }}</GPP_B>
-<GPP_C ua="na"> </GPP_C>
+<GPP_B ua="na">model v{{ config.MODEL_VERSION }}</GPP_B>
+<GPP_C ua="na">template v {{ template_version }}</GPP_C>
 <GPP_D ua="na"> </GPP_D>
-<GPP_E ua="na">{{ agent }}</GPP_E>
-<GPP_F ua="na"> </GPP_F> <!-- Reserved from model based config -->
-<GPP_G ua="na"> </GPP_G>  <!-- Reserved from model based config  -->
-<GPP_H ua="na"> </GPP_H> <!-- Reserved from model based config  -->
-<GPP_I ua="na"> </GPP_I> <!-- Reserved from model based config  -->
+<GPP_E ua="na"> </GPP_E>
+<GPP_F ua="na"> </GPP_F>
+<GPP_G ua="na"> </GPP_G>
+<GPP_H ua="na"> </GPP_H>
+<GPP_I ua="na"> </GPP_I>
 
 <GPP_J ua="na">{{ phone.sys.provision.gppJ }}</GPP_J>
 <GPP_K ua="na">{{ phone.sys.provision.gppK }}</GPP_K>
@@ -234,7 +235,7 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 {% for l in phone.lines %}
     <!--  Line Key {{ l.button }} (Line) -->
     <Extension_{{ l.button }}_ ua="na">{{ l.button }}</Extension_{{ l.button }}_>
-    <Short_Name_{{ l.button }}_ ua="na">{{ l.short_name }}</Short_Name_{{ l.button }}_>
+    <Short_Name_{{ l.button }}_ ua="na">{{ l.label }}</Short_Name_{{ l.button }}_>
     <Extended_Function_{{ l.button }}_ ua="na"/>
 {% endfor %}
 <!-- ====================================================================== -->
