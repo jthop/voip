@@ -7,7 +7,6 @@
 #  Author: Jamie Hopper <jh@mode14.com>
 # --------------------------------------------------------------------------
 
-from functools import wraps
 import logging
 
 from flask import Flask
@@ -17,30 +16,35 @@ from flask import redirect
 from flask import Response
 from flask import abort
 from flask import request
+from flask import make_response
 from flask.logging import default_handler
 
 import models
 import config
-import elapsed_time
 
 from last_bump import version as __version__
 from last_bump import hexdigest
+
+#import flask_monitoringdashboard as dashboard
 
 
 ###########################################
 
 
-class XMLResponse(Response):
-    default_mimetype = 'application/xml'
+# class XMLResponse(Response):
+#     default_mimetype = 'application/xml'
 
-class XMLFlask(Flask):
-    response_class = XMLResponse
+# class XMLFlask(Flask):
+#     response_class = XMLResponse
 
-app = XMLFlask(config.APP_NAME, static_url_path='/static')
+
+app = Flask(__name__, static_url_path='/static')
 
 app.config['APP_VERSION'] = __version__
 app.config['CONFIG_VERSION'] = config.__version__
 app.config['MODEL_VERSION'] = models.Phone.Meta.__version__
+
+#dashboard.bind(app)
 
 logging.basicConfig(
     format=config.LOG_FORMAT,
@@ -49,11 +53,6 @@ logging.basicConfig(
 )
 pynamodb_logger = logging.getLogger("pynamodb")
 pynamodb_logger.addHandler(default_handler)
-
-gunicorn_logger = logging.getLogger("gunicorn.access")
-gunicorn_logger.addHandler(default_handler)
-
-app_logger = logging.getLogger(config.APP_NAME)
 
 
 ###########################################
@@ -74,10 +73,22 @@ app.logger.info(f' wsgi: { config.ver["server_software"] }')
 app.logger.info(f' docker host: { config.docker_host }')
 app.logger.info('====================================')
 
-# agent
+
 # Cisco-CP-8841-3PCC/11.0 (00562b043615)
+def render_xml(*args, **kwargs):
+    xml = render_template(*args, **kwargs)
+
+    r = make_response(xml)
+    r.mimetype = 'application/xml'
+    return r
+
 
 ###########################################
+
+
+@app.route('/')
+def main_page():
+    return render_template('index.html')
 
 
 @app.route('/CP-7821-3PCC.xml')
@@ -92,7 +103,7 @@ def CP_PSN():
 
 
 @app.route('/cp/conf/<mac>.xml')
-@elapsed_time.print_elapsed_time
+#@elapsed_time.print_elapsed_time
 def MAU(mac):
     try:
         phone = models.Phone.get(mac)
@@ -103,7 +114,7 @@ def MAU(mac):
 
     app.logger.debug(f'record found for mac: {mac}')
 
-    return render_template(
+    return render_xml(
         phone.template,
         phone=phone
     )
@@ -111,7 +122,7 @@ def MAU(mac):
 
 @app.route('/cp/dir.xml')
 def directory():
-    return render_template('directory.xml')
+    return render_xml('directory.xml')
 
 
 """
@@ -136,7 +147,7 @@ def delta():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template(
+    return render_xml(
         '404.xml',
         full_path=request.full_path
     ), 404
@@ -152,5 +163,6 @@ def healthcheck(patient='vagrant'):
     return jsonify({'success': True})
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=7000)
+# if __name__ == "__main__":
+#     app.run(host='0.0.0.0', port=7000, debug=True)
+

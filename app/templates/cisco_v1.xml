@@ -47,11 +47,12 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <Station_Display_Name ua="na">{{ phone.station_name }}</Station_Display_Name>
 <Miss_Call_Shortcut ua="na">Yes</Miss_Call_Shortcut>
 <Voice_Mail_Number ua="na">*97</Voice_Mail_Number>
-    <Time_Zone ua="na">{{ phone.sys.time.time_zone }}</Time_Zone>
-    <Daylight_Saving_Time_Rule ua="na">{{ phone.sys.time.dst_rsscšule }}</Daylight_Saving_Time_Rule>
-    <Daylight_Saving_Time_Enable ua="na">
-        {% if phone.sys.time.dst_enable %}Yes{% else %}No{% endif %}
-    </Daylight_Saving_Time_Enable>
+
+<Time_Zone ua="na">{{ phone.sys.time.time_zone }}</Time_Zone>
+<Daylight_Saving_Time_Rule ua="na">{{ phone.sys.time.dst_rsscšule }}</Daylight_Saving_Time_Rule>
+<Daylight_Saving_Time_Enable ua="na">
+    {% if phone.sys.time.dst_enable %}Yes{% else %}No{% endif %}
+</Daylight_Saving_Time_Enable>
 <!-- ====================================================================== -->
 
 
@@ -204,8 +205,8 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <Profile_Rule_B ua="na">{{ phone.sys.provision.ruleB }}</Profile_Rule_B>
 <Profile_Rule_C ua="na">{{ phone.sys.provision.ruleC }}</Profile_Rule_C>
 <Profile_Rule_D ua="na">{{ phone.sys.provision.ruleD }}</Profile_Rule_D>
-<DHCP_Option_To_Use ua="na">{{ phone.sys.provision.dhcpOptionsV4 }}</DHCP_Option_To_Use>
-<DHCPv6_Option_To_Use ua="na">{{ phone.sys.provision.dhcpOptionsV6 }}</DHCPv6_Option_To_Use>
+<DHCP_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_V4 }}</DHCP_Option_To_Use>
+<DHCPv6_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_V6 }}</DHCPv6_Option_To_Use>
 <!-- ====================================================================== -->
 
 
@@ -224,7 +225,7 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 
 <!-- ===================== MULTICAST PAGING GROUPS ======================== -->
 <!-- ====================================================================== -->
-{% for group in phone.sys.pageGroups %}
+{% for group in phone.sys.page_groups %}
     <Group_{{ loop.index }}_Paging_Script ua="na">{{ group }}</Group_{{ loop.index }}_Paging_Script>
 {% endfor %}
 <!-- ====================================================================== -->

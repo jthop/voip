@@ -45,11 +45,36 @@ backlog = int(os.getenv('BACKLOG', '2048'))
 #
 #       A string of "debug", "info", "warning", "error", "critical"
 #
+#
+# Identifier	Description
+#  h	remote address
+#  l	'-'
+#  u	user name
+#  t	date of the request
+#  r	status line (e.g. GET / HTTP/1.1)
+#  m	request method
+#  U	URL path without query string
+#  q	query string
+#  H	protocol
+#  s	status
+#  B	response length
+#  b	response length or '-' (CLF format)
+#  f	referer
+#  a	user agent
+#  T	request time in seconds
+#  M	request time in milliseconds
+#  D	request time in microseconds
+#  L	request time in decimal seconds
+#  p	process ID
+#  {header}i	request header
+#  {header}o	response header
+#  {variable}e	environment variable
+#
 
 accesslog = '-'
 errorlog = '-'
 loglevel = os.getenv('GUNICORN_LOG_LEVEL', 'debug')
-access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" in or %(D)sµs'
+access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" in %(M)sms'    #%(D)sµs
 #logconfig = '/app/gunicorn.log.conf'
 
 #
@@ -97,15 +122,13 @@ access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
 #
 
 workers = 1
-#threads = int(os.getenv('PYTHON_MAX_THREADS', 1))
-#workers = int(os.getenv('WEB_CONCURRENCY', multiprocessing.cpu_count() * 2))
+
+threads = int(os.getenv('PYTHON_MAX_THREADS', 1))
+workers = int(os.getenv('WEB_CONCURRENCY', multiprocessing.cpu_count() * 2))
 worker_class = os.getenv('WORKER_CLASS', 'sync')
 worker_connections = int(os.getenv('WORKER_CONNECTIONS', 1000))
 timeout = int(os.getenv('TIMEOUT', 30))
 keepalive = int(os.getenv('KEEPALIVE', 5))
-
-
-
 
 # debug
 reload = bool(strtobool(os.getenv('WEB_RELOAD', 'false')))

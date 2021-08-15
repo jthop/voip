@@ -7,7 +7,7 @@
 #  Author: Jamie Hopper <jh@mode14.com>
 # --------------------------------------------------------------------------
 #
-from __future__ import annotations
+#from __future__ import annotations
 
 import os
 import yaml
@@ -30,14 +30,13 @@ from pynamodb_attributes import UUIDAttribute
 
 import config
 
-
 ALLOWED_SERVER_TYPES = {"Asterisk", "Broadsoft", 'SPA9000', 'RFC3265_4235', 'Sylantro'}
 ALLOWED_KEM_TYPES = {'BEKEM', 'CP-8800-Audio', 'CP-8800-Video'}
 ALLOWED_SECURITY_MODES = {'Auto', 'EAP-FAST', 'PEAP-GTC', 'PEAP-MSCHAPV2', 'PSK', 'WEP', 'None'}
 EPOCH = datetime(1970, 1, 1, 0, 0)
 
 
-__version__ = '1.7'
+__version__ = '1.8'
 
 """
 ===================================
@@ -202,6 +201,39 @@ class Phone(Model):
         already from pynamodb
         """
 
+        m = config.models.get(phone.model)
+        if m is None:
+            raise ValueError(f'no model: {phone.model}')
+
+        """
+        take the phoneModel.yml info and split it into two pieces
+        phone._features and phone._template
+        """
+        phone._features = m.get('features')
+        phone._template = m.get('template')
+
+        """
+        A subset of the features are for the kem and need to be available
+        to the kem class
+        """
+        if hasattr(phone, 'kem') and (getattr(phone, 'kem') is not None):
+            phone.kem._features = m.get('features', {}).get('kem')
+
+        """
+        Lookup and the system specific config.  This is everything specific
+        to the local pbx.  IPs, domains, provisioning configs, etc.
+        """
+        phone._sys = config.systems[phone.sys_id]
+
+        return phone
+
+    @staticmethod
+    def llload_references(phone):
+        """
+        load all our external data besides what was pulled
+        already from pynamodb
+        """
+
         with open(config.PHONE_MODELS.absolute()) as f:
             models = yaml.load(f, Loader=yaml.SafeLoader)
 
@@ -222,7 +254,6 @@ class Phone(Model):
         """
         if hasattr(phone, 'kem') and (getattr(phone, 'kem') is not None):
             phone.kem._features = m.get('features', {}).get('kem')
-
         """
         Lookup and the system specific config.  This is everything specific
         to the local pbx.  IPs, domains, provisioning configs, etc.
