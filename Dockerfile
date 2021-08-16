@@ -1,5 +1,4 @@
-FROM python:3.10.0b1-buster
-#FROM python:3.7.3-slim
+FROM python:3.9-buster
 #FROM python:3.7.3-alpine22x
 
 #Install curl for healthcheck

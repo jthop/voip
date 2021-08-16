@@ -3,4 +3,3 @@ Flask==1.1.2
 pynamodb==5.1.0
 gunicorn==20.1.0
 pyyaml
-#Flask-MonitoringDashboard
