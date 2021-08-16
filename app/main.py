@@ -8,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 import logging
+import time
 
 from flask import Flask
 from flask import render_template
@@ -17,34 +18,16 @@ from flask import Response
 from flask import abort
 from flask import request
 from flask import make_response
-from flask.logging import default_handler
 
 import models
 import config
-
 from last_bump import version as __version__
 from last_bump import hexdigest
 
-#import flask_monitoringdashboard as dashboard
-
-
 ###########################################
 
-
-# class XMLResponse(Response):
-#     default_mimetype = 'application/xml'
-
-# class XMLFlask(Flask):
-#     response_class = XMLResponse
-
-
 app = Flask(__name__, static_url_path='/static')
-
-app.config['APP_VERSION'] = __version__
-app.config['CONFIG_VERSION'] = config.__version__
-app.config['MODEL_VERSION'] = models.Phone.Meta.__version__
-
-#dashboard.bind(app)
+app.config.from_object('config.AppConfig')
 
 logging.basicConfig(
     format=config.LOG_FORMAT,
@@ -52,8 +35,7 @@ logging.basicConfig(
     level=logging.DEBUG
 )
 pynamodb_logger = logging.getLogger("pynamodb")
-pynamodb_logger.addHandler(default_handler)
-
+pynamodb_logger.setLevel(logging.ERROR)
 
 ###########################################
 
@@ -62,15 +44,16 @@ app.logger.info('====================================')
 app.logger.info(f' nps v{__version__}')
 app.logger.info(' by @jthop <jh@mode14.com>')
 app.logger.info('------------------------------------')
-app.logger.info(f' blake2b hash: { hexdigest }')
+app.logger.info(f' source hash: { hexdigest[0:7] }')
 app.logger.info(f' config v{ config.__version__ }')
 app.logger.info(f' dynamodb model v{ models.Phone.Meta.__version__ }')
 app.logger.info('------------------------------------')
-app.logger.info(f' python v{ config.ver["python_version"] }')
-app.logger.info(f' environment: pip v{ config.ver["pip_version"] }')
-app.logger.info(f' flask v{ config.ver["flask_version"] }')
-app.logger.info(f' wsgi: { config.ver["server_software"] }')
-app.logger.info(f' docker host: { config.docker_host }')
+app.logger.info(f' instance { config.INSTANCE_ID }')
+app.logger.info(f' docker: { config.DOCKER_HOSTNAME }')
+app.logger.info(f' python v{ config.PYTHON_VERSION }')
+app.logger.info(f' environment: pip v{ config.PIP_VERSION }')
+app.logger.info(f' flask v{ config.FLASK_VERSION }')
+app.logger.info(f' wsgi: { config.SERVER_SOFTWARE }')
 app.logger.info('====================================')
 
 
@@ -103,26 +86,18 @@ def CP_PSN():
 
 
 @app.route('/cp/conf/<mac>.xml')
-#@elapsed_time.print_elapsed_time
 def MAU(mac):
     try:
         phone = models.Phone.get(mac)
-        #phone.load_ext()
     except models.Phone.DoesNotExist:
         app.logger.error(f'404 - mac: {mac}')
         abort(404)
 
     app.logger.debug(f'record found for mac: {mac}')
-
     return render_xml(
         phone.template,
         phone=phone
     )
-
-
-@app.route('/cp/dir.xml')
-def directory():
-    return render_xml('directory.xml')
 
 
 """
@@ -163,6 +138,5 @@ def healthcheck(patient='vagrant'):
     return jsonify({'success': True})
 
 
-# if __name__ == "__main__":
-#     app.run(host='0.0.0.0', port=7000, debug=True)
-
+if __name__ == "__main__":
+     app.run(host='0.0.0.0', port=7000, debug=False)

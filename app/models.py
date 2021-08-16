@@ -29,12 +29,12 @@ from pynamodb.attributes import UTCDateTimeAttribute
 from pynamodb_attributes import UUIDAttribute
 
 import config
+from flask import current_app as app
 
 ALLOWED_SERVER_TYPES = {"Asterisk", "Broadsoft", 'SPA9000', 'RFC3265_4235', 'Sylantro'}
 ALLOWED_KEM_TYPES = {'BEKEM', 'CP-8800-Audio', 'CP-8800-Video'}
 ALLOWED_SECURITY_MODES = {'Auto', 'EAP-FAST', 'PEAP-GTC', 'PEAP-MSCHAPV2', 'PSK', 'WEP', 'None'}
 EPOCH = datetime(1970, 1, 1, 0, 0)
-
 
 __version__ = '1.8'
 
@@ -195,7 +195,7 @@ class Phone(Model):
         return Phone.load_references(phone)
 
     @staticmethod
-    def load_references(phone):
+    def hard_coded_load_references(phone):
         """
         load all our external data besides what was pulled
         already from pynamodb
@@ -224,11 +224,10 @@ class Phone(Model):
         to the local pbx.  IPs, domains, provisioning configs, etc.
         """
         phone._sys = config.systems[phone.sys_id]
-
         return phone
 
     @staticmethod
-    def llload_references(phone):
+    def load_references(phone):
         """
         load all our external data besides what was pulled
         already from pynamodb
@@ -262,7 +261,7 @@ class Phone(Model):
             systems = yaml.load(f, Loader=yaml.SafeLoader)
 
         phone._sys = systems.get(phone.sys_id)
-        
+
         return phone
 
     @property

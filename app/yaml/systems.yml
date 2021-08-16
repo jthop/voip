@@ -4,26 +4,26 @@
     ntp2: 10.10.10.25
     syslog: 10.10.10.10
 
-    defaultWallpaper: http://pnp.fon.ee/static/wallpaper/mode14.png
-    bootText: welcome to fon.ee
+    wallpaper: http://pnp.fon.ee/static/wallpaper/mode14.png
+    boot_text: welcome to fon.ee
     directory:
       url: http://pnp.fon.ee/cp/dir.xml
       name: Directory
-    pageGroups: 
+    page_groups: 
       - pggrp=224.168.168.168:34560;name=All;num=801;listen=yes;pri=3;codec=g722
 
     time:
-      timeZone: GMT-06:00
-      dstEnable: true
-      dstRule: start=3/-2/7/2;end=11/-2/7/2;save=1
+      time_zone: GMT-06:00
+      dst_enable: true
+      dst_rule: start=3/-2/7/2;end=11/-2/7/2;save=1
     provision:
       rule: 'https://pnp.fon.ee/cp/conf/$MAU.xml'
       ruleB: 
       ruleC:
       ruleD:
-      dhcpOptionsV4: 66,160,159,150
+      dhcp_options_v4: 66,160,159,150
       # also 60,43,125
-      dhcpOptionsV6: 17,160,159
+      dhcp_options_v6: 17,160,159
       gppA: <RESERVED>
       gppC: <RESERVED>
       gppD: <RESERVED>

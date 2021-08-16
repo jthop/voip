@@ -27,7 +27,7 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <GPP_A ua="na">app v{{ config.APP_VERSION }}</GPP_A>
 <GPP_B ua="na">model v{{ config.MODEL_VERSION }}</GPP_B>
 <GPP_C ua="na">template v {{ template_version }}</GPP_C>
-<GPP_D ua="na"> </GPP_D>
+<GPP_D ua="na">instance {{ config.IN }}</GPP_D>
 <GPP_E ua="na"> </GPP_E>
 <GPP_F ua="na"> </GPP_F>
 <GPP_G ua="na"> </GPP_G>
@@ -49,7 +49,7 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <Voice_Mail_Number ua="na">*97</Voice_Mail_Number>
 
 <Time_Zone ua="na">{{ phone.sys.time.time_zone }}</Time_Zone>
-<Daylight_Saving_Time_Rule ua="na">{{ phone.sys.time.dst_rsscšule }}</Daylight_Saving_Time_Rule>
+<Daylight_Saving_Time_Rule ua="na">{{ phone.sys.time.dst_rule }}</Daylight_Saving_Time_Rule>
 <Daylight_Saving_Time_Enable ua="na">
     {% if phone.sys.time.dst_enable %}Yes{% else %}No{% endif %}
 </Daylight_Saving_Time_Enable>
@@ -205,8 +205,8 @@ $PN $MAC -- Successful upgrade $SCHEME://$SERVIP:$PORT$PATH -- $ERR
 <Profile_Rule_B ua="na">{{ phone.sys.provision.ruleB }}</Profile_Rule_B>
 <Profile_Rule_C ua="na">{{ phone.sys.provision.ruleC }}</Profile_Rule_C>
 <Profile_Rule_D ua="na">{{ phone.sys.provision.ruleD }}</Profile_Rule_D>
-<DHCP_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_V4 }}</DHCP_Option_To_Use>
-<DHCPv6_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_V6 }}</DHCPv6_Option_To_Use>
+<DHCP_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_v4 }}</DHCP_Option_To_Use>
+<DHCPv6_Option_To_Use ua="na">{{ phone.sys.provision.dhcp_options_v6 }}</DHCPv6_Option_To_Use>
 <!-- ====================================================================== -->
 
 
