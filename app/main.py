@@ -18,6 +18,7 @@ from flask import Response
 from flask import abort
 from flask import request
 from flask import make_response
+from flask.logging import default_handler
 
 import models
 import config
@@ -29,13 +30,14 @@ from last_bump import hexdigest
 app = Flask(__name__, static_url_path='/static')
 app.config.from_object('config.AppConfig')
 
-logging.basicConfig(
-    format=config.LOG_FORMAT,
-    datefmt=config.LOG_FORMAT_DATE,
-    level=logging.DEBUG
+
+formatter = logging.Formatter(
+    fmt=config.LOG_FORMAT,
+    datefmt=config.LOG_FORMAT_DATE
 )
-pynamodb_logger = logging.getLogger("pynamodb")
-pynamodb_logger.setLevel(logging.ERROR)
+default_handler.setFormatter(formatter)
+app.logger.setLevel(logging.DEBUG)
+
 
 ###########################################
 
@@ -72,6 +74,26 @@ def render_xml(*args, **kwargs):
 @app.route('/')
 def main_page():
     return render_template('index.html')
+
+
+@app.route('/phones/all')
+def all_phones():
+    return render_template('all_phones.html',
+            phones=models.Phone.scan()
+        )
+
+
+@app.route('/phones/<mac>')
+def single_phone(mac):
+    try:
+        phone = models.Phone.get(mac)
+    except models.Phone.DoesNotExist:
+        app.logger.error(f'404 - mac: {mac}')
+        abort(404)
+
+    return render_template('single_phone.html',
+            p=phone
+        )
 
 
 @app.route('/CP-7821-3PCC.xml')

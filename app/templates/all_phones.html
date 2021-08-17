@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>All Phones</title
+</head>
+<body>
+    <table border="1" cellpadding="4">
+    <tr>
+        <th>mac</th>
+        <th>serial</th>
+        <th>sys_id</th>
+        <th>station_name</th>
+        <th>extension</th>
+        <th>DID</th>
+        <th>model</th>
+        <th>location</th>
+        <th>wifi</th>
+        <th>dark_room</th>
+        <th>remote</th>
+        <th>__id__</th>
+    </tr>
+    
+    {% for p in phones %}
+    <tr>
+        <td>
+            <a href="/phones/{{ p.mac }}">
+                {{ p.mac }}
+            </a>
+        </td>
+        <td>{{ p.serial }}</td>
+        <td>{{ p.sys_id }}</td>
+        <td>{{ p.station_name }}</td>
+        <td>{{ p.extension }}</td>
+        <td>{{ p.did }}</td>
+        <td>{{ p.model }}</td>
+        <td>{{ p.location }}</td>
+        <td>{{ p.wifi }}</td>
+        <td>{{ p.dark_room }}</td>
+        <td>{{ p.remote }}</td>
+        <td>{{ p.__id__ }}</td>
+    </tr>
+    {% endfor %}
+
+</body>
+</html>
