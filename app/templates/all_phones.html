@@ -1,9 +1,8 @@
-<html>
-<head>
-    <title>All Phones</title
-</head>
-<body>
-    <table border="1" cellpadding="4">
+{% extends "base.html" %}
+{% block title %}All Phones{% endblock %}
+{% block content %}
+
+    <table class="u-full-width">
     <tr>
         <th>mac</th>
         <th>serial</th>
@@ -22,7 +21,7 @@
     {% for p in phones %}
     <tr>
         <td>
-            <a href="/phones/{{ p.mac }}">
+            <a href="/phone/{{ p.mac }}">
                 {{ p.mac }}
             </a>
         </td>
@@ -40,5 +39,4 @@
     </tr>
     {% endfor %}
 
-</body>
-</html>
+{% endblock %}

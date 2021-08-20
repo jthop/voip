@@ -11,9 +11,11 @@ import json
 
 DEFAULT_FILE = '.bumped'
 VERSION_KEY = 'version'
-HASH_KEY = 'hexdigest'
+SOURCE_HASH_KEY = 'sha256sum'
 ERROR_VERSION = '0.0.0-error.1'
 ERROR_HASH = 'ffffffff'
+
+__version__ = '0.2.10'
 
 version = ERROR_VERSION
 hexdigest = ERROR_HASH
@@ -28,6 +30,6 @@ v = js.get(VERSION_KEY)
 if v:
     version = v
 
-h = js.get(HASH_KEY)
+h = js.get(SOURCE_HASH_KEY)
 if h:
     hexdigest = h

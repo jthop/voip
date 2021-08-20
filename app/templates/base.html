@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  <meta name="mode14" content="nps for 3pcc phones">
+  <meta name="author" content="@jthop">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+</head>
+<body>
+
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+
+
+
+
+    <div class="row">
+
+        {% block content %}{% endblock %}
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+        <div class="twelve columns">
+            <h5>&copy 2021 mode14.  All Rights Reserved</h5>
+
+            <p>
+            powered by <a href="">mode14</a> nps {{config.APP_VERSION}}
+            <p class="small">
+            node {{config.DOCKER_HOSTNAME}} instance {{config.INSTANCE_ID}}
+            </p>
+
+        </div>
+        </div>
+    </div>
+
+  </div>
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

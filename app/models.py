@@ -26,6 +26,7 @@ from pynamodb.attributes import MapAttribute
 from pynamodb.attributes import NumberAttribute
 from pynamodb.attributes import UnicodeAttribute
 from pynamodb.attributes import UTCDateTimeAttribute
+from pynamodb.attributes import VersionAttribute
 from pynamodb_attributes import UUIDAttribute
 
 import config
@@ -113,6 +114,50 @@ class WifiConfig(MapAttribute):
 
 """
 ===================================
+      MAC ADDRESS PARSER
+===================================
+"""
+
+
+class MacAddress(object):
+    def __init__(self, mac):
+        self.mac = mac
+        self.default = 'cisco'
+        self.caps = True
+
+    def __str__(self):
+        if self.default == 'cisco':
+            return self.cisco
+        else:
+            return self.hp
+
+    def _get_mac(self):
+        if self.caps:
+            return self.mac.upper()
+        return self.mac.lower()
+
+    @property
+    def cisco(self):
+        m = self._get_mac()
+        c1 = self.mac.upper()[0:4]
+        c2 = self.mac.upper()[4:8]
+        c3 = self.mac.upper()[8:12]
+        return f'{c1}.{c2}.{c3}'
+
+    @property
+    def hp(self):
+        m = self._get_mac()
+        h1 = self.m[0:2]
+        h2 = self.m[2:4]
+        h3 = self.m[4:6]
+        h4 = self.m[6:8]
+        h5 = self.m[8:10]
+        h6 = self.m[10:12]
+        return f'{h1}:{h2}:{h3}:{h4}:{h5}:{h6}'
+
+
+"""
+===================================
        THE MAIN PHONE MODEL
 ===================================
 """
@@ -135,11 +180,17 @@ class Phone(Model):
 
     __version__ = UnicodeAttribute(null=True, default=Meta.__version__)
     __id__ = UUIDAttribute(default=uuid4())
+    __writes__ = VersionAttribute()
+    __created_at__ = UTCDateTimeAttribute(default=datetime.now)
+    __updated_at__ = UTCDateTimeAttribute(default=EPOCH)
+    __provisioned_at__ = UTCDateTimeAttribute(default=EPOCH)
+
     additional_template = UnicodeAttribute(null=True)
     alternate_template = UnicodeAttribute(null=True)
     dark_room = BooleanAttribute(null=True)
     extension = NumberAttribute()
     did = UnicodeAttribute(null=True)
+    ip = UnicodeAttribute(null=True)
     location = UnicodeAttribute(null=True)
     mac = UnicodeAttribute(hash_key=True)
     model = UnicodeAttribute(null=True, default='')
@@ -153,10 +204,6 @@ class Phone(Model):
     kem = Kem(null=True)
     wifi = WifiConfig(null=True)
 
-    created_at = UTCDateTimeAttribute(default=datetime.now)
-    ip = UnicodeAttribute(null=True)
-    updated_at = UTCDateTimeAttribute(default=EPOCH)
-
     def __init__(self, *args, **kwargs):
         """
         unused - Override .__init__()
@@ -169,11 +216,15 @@ class Phone(Model):
         unused - overloaded .save()
         """
         
-        self.__id__ = uuid4()
+        self.__updated_at__ = datetime.now()
         return super().save(*args, **kwargs)
 
     def update(self, *args, **kwargs):
-        self.updated_at = datetime.now()
+        """
+        unused - overloaded .save()
+        """
+
+        self.__updated_at__ = datetime.now()
         return super().update(*args, **kwargs)
 
     @classmethod
@@ -193,38 +244,6 @@ class Phone(Model):
             phone._agent = request.headers.get('User-Agent')
             phone._ip =request.remote_addr
         return Phone.load_references(phone)
-
-    @staticmethod
-    def hard_coded_load_references(phone):
-        """
-        load all our external data besides what was pulled
-        already from pynamodb
-        """
-
-        m = config.models.get(phone.model)
-        if m is None:
-            raise ValueError(f'no model: {phone.model}')
-
-        """
-        take the phoneModel.yml info and split it into two pieces
-        phone._features and phone._template
-        """
-        phone._features = m.get('features')
-        phone._template = m.get('template')
-
-        """
-        A subset of the features are for the kem and need to be available
-        to the kem class
-        """
-        if hasattr(phone, 'kem') and (getattr(phone, 'kem') is not None):
-            phone.kem._features = m.get('features', {}).get('kem')
-
-        """
-        Lookup and the system specific config.  This is everything specific
-        to the local pbx.  IPs, domains, provisioning configs, etc.
-        """
-        phone._sys = config.systems[phone.sys_id]
-        return phone
 
     @staticmethod
     def load_references(phone):
@@ -281,7 +300,7 @@ class Phone(Model):
 
         """
         
-        return self._features
+        return self._features      
 
     @property
     def template(self):
@@ -294,6 +313,16 @@ class Phone(Model):
         
         return self._template
 
+    @property
+    def pretty_mac(self):
+        """
+        MacAddress parser has 2 attributes
+        .cisco = xxxx.xxxx.xxxx format mac
+        .hp = xx:xx:xx:xx:xx:xx format mac
+        """
+        
+        return MacAddress(self.mac)
+        
     @property
     def additional_template_file(self):
         """

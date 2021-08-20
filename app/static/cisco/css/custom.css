@@ -1,0 +1,16 @@
+
+#phoneHeader h1, #phoneHeader h2, #phoneHeader h3,
+#phoneHeader h4, #phoneHeader h5, #phoneHeader h6{
+    font-variant: small-caps;
+    font-weight: bold !important; 
+    margin-top: 20px !important; }
+
+#phoneBody h1, #phoneBody h2, #phoneBody h3{
+    font-variant: small-caps;
+    font-weight: bold !important; 
+    margin-top: 20px !important; }
+
+#phoneBody h4, #phoneBody h5, #phoneBody h6{
+    color: #bbbbbb;
+    font-weight: 550 !important;
+    font-variant: small-caps;}

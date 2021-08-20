@@ -89,15 +89,15 @@
 
     {% if p.kem %}
         <h2>KEM</h2>
-        <h4>{{ kem.model }}</h4>
-        <h4>{{ kem.number_of_units }}</h4>
+        <h4>model: {{ p.kem.model }}</h4>
+        <h4>quantity of units: {{ p.kem.number_of_units }}</h4>
 
         <table border="1">
         <tr>
             <th>button</th>
             <th>func</th>
         </tr>
-        {% for u in kem.units %}
+        {% for u in p.kem.units %}
             {% for b in u.buttons %}
             <tr>
                 <td>{{b.button}}</td>

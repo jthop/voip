@@ -12,6 +12,8 @@ from pathlib import Path
 import pkg_resources
 from uuid import uuid4
 
+from last_bump import version as APP_VERSION
+from last_bump import hexdigest as SOURCE_SHA
 
 __version__ = '1.3'
 

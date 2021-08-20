@@ -1,0 +1,97 @@
+<!doctype html>
+<html class="cui" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <!-- FavIcon -->
+        <link rel="shortcut icon" href="/static/favicon/simple-64.ico" />
+        <!-- CSS -->
+        <link rel="stylesheet" href="/static/cisco/css/cui-standard.min.css" />
+        <link rel="stylesheet" href="/static/cisco/css/custom.css?{{c.APP_VERSION}}" />
+        <!-- JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+        <script src="/static/cisco/js/nps.js?{{c.APP_VERSION}}"></script>
+    </head>
+    <body>
+        <div class="content-fluid">
+            <nav id="npsSidebar" class="sidebar">
+                <div class="sidebar__header">
+                    <div class="sidebar__header-title">Phones</div>
+                </div>
+                <ul id="rootSidebar">
+                    <!-- sidebar__item--selected -->
+                    {% for p in phones %}
+                        <li class="sidebar__item"><a onclick="doNav('/phone/{{ p.mac }}')">
+                            {{ p.location }} ({{ p.pretty_mac.cisco }})
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <main>
+                <header id="npsHeader" class="header">
+                    <div class="header-bar container">
+                        <a class="btn btn--small btn--icon toggle-menu">
+                            <span class="icon-list-menu"></span>
+                        </a>
+                        <a class="header-bar__logo">
+                            <span class="icon-desk-phone"></span>
+                        </a>
+                        <div class="header-bar__main">
+                            <div class="header-breadcrumbs">
+                                <ul class="breadcrumb">
+                                    <li><a>nps</a></li>
+                                    <li><a>endpoints</a></li>
+                                    <li><span>config</span></li>
+                                </ul>
+                            </div>
+                            <div class="header-heading">
+                                <h1 class="page-title">Normal Provisioning Server</h1>
+                            </div>
+                        </div>
+                        <div class="header-toolbar">
+                            <a class="btn btn--small btn--icon">
+                                <span class="icon-search"></span>
+                            </a>
+                            <a class="btn btn--small btn--icon">
+                                <span class="icon-alert"></span>
+                            </a>
+                            <a class="btn btn--small btn--icon">
+                                <span class="icon-cog"></span>
+                            </a>
+                        </div>
+                    </div>
+                </header>
+                <div class="content">
+                    <div class="container">
+
+                        {% block content %}{% endblock %}
+
+                    </div>
+                </div>
+                <footer class="footer footer--new">
+                    <div class="footer__links">
+                        <ul class="list">
+                            <li>powered by mode14</li>
+                            <li>version <strong>{{c.APP_VERSION}}</strong></li>
+                            <li class="text-small">node: <strong>{{c.DOCKER_HOSTNAME}}</strong></li>
+                            <li class="text-small">instance: <strong>{{c.INSTANCE_ID}}</strong></li>
+                            <li class="text-small">sha sum: <strong>{{c.SOURCE_SHA}}</strong></li>
+                        </ul>
+                    </div>
+                    <div class="footer__legal">
+                        <div class="footer__logo">
+                            <a href="" target="_blank">
+                                <span class="icon-desk-phone"></span>
+                            </a>
+                        </div>
+                        <div class="footer__copyright">
+                            <div>copyright &copy; 2021 mode14.</div>
+                            <div>all rights reserved.</div>
+                        </div>
+                    </div>
+                </footer>
+            </main>
+        </div>
+    </body>
+</html>

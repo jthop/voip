@@ -1,0 +1,376 @@
+{% extends "cisco/base.html" %}
+{% block title %}All Phones{% endblock %}
+{% block content %}
+
+
+ <div id="phoneHeader" class="section">
+    <h1>
+       <{{p.extension}}.{{p.location}}.config>
+    </h1>
+    <p>__id__: {{p.__id__}} / schema: v{{p.__version__}}</p>
+</div>
+
+<!-- Phone Config Body -->
+<div id="phoneBody" class="row">
+
+    <!-- Left Column -->
+    <div id="leftColumn" class="col-md-6">
+
+        <div class="panel panel--bordered">
+            <div class="flex-center-vertical">
+                <div class="flex-center" style="width:48px;height:48px">
+                    <span class="icon-cog icon-medium"></span>
+                </div>
+                <div class="flex-fluid half-margin-left">
+                    <div class="text-bold text-xlarge">Basic Config</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Config   icon-cog -->
+        <div id="basicConfig" class="section">
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Mac</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.pretty_mac.cisco }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Created</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.__created_at__.strftime('%m/%d/%Y %H:%M:%S') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Updated</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.__updated_at__.strftime('%m/%d/%Y %H:%M:%S') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Last IP</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.ip }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Serial</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.serial }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Ext</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.extension }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>DID</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.did }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Location</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.location }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Station</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.station_name }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Prefer Dark</strong>
+                </div>
+                <div class="col-md-8">
+                    {% if p.dark_room == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Remote</strong>
+                </div>
+                <div class="col-md-8">
+                    {% if p.remote == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Additional Cfg</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.additional_template or 'No' }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Alternate Cfg</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.alternate_template  or 'No'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Model</strong>
+                </div>
+                <div class="col-md-8">
+                    {{ p.model }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">&nbsp;</div>
+            </div>
+
+        </div>
+        <!-- /Basic Config -->
+
+        <h5 id="modelTitle">{{ p.model }}</h5>
+        <!-- Model -->  
+        <div id="modelConfig" class="section">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <strong>Available Buttons</strong>
+                </div>
+                <div class="col-md-7">
+                    {{ p.features.buttons }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <strong>Video Capable</strong>
+                </div>
+                <div class="col-md-7">
+                    {% if p.features.video == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <strong>Wifi Capable</strong>
+                </div>
+                <div class="col-md-7">
+                    {% if p.features.wifi == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <strong>Bluetooth Capable</strong>
+                </div>
+                <div class="col-md-7">
+                    {% if p.features.bluetooth == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /Model-->
+
+    </div>
+    <!-- /Left Column --> 
+
+    <!-- Right Column -->     
+    <div id="rightColumn" class="col-md-6">
+
+        <!-- SIP Lines  icon-dual-line  -->
+        {% if p.lines %}
+
+        <div class="panel panel--bordered">
+            <div class="flex-center-vertical">
+                <div class="flex-center" style="width:48px;height:48px">
+                    <span class="icon-dual-line icon-medium"></span>
+                </div>
+                <div class="flex-fluid half-margin-left">
+                    <div class="text-bold text-xlarge">Line Button Configs</div>
+                </div>
+            </div>
+        </div>
+
+        {% for l in p.lines %}
+        <div class="section">
+            <div class="row">
+                <div class="col-4">
+                    <strong>Button</strong>
+                </div>
+                <div class="col-8">
+                    {{l.button}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>DID</strong>
+                </div>
+                <div class="col-8">
+                    {{l.did}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>Hide Missed</strong>
+                </div>
+                <div class="col-8">
+                    {% if l.hide_missed == True %} Yes {% else %} No {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>Label</strong>
+                </div>
+                <div class="col-8">
+                    {{l.label}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>ring</strong>
+                </div>
+                <div class="col-8">
+                    {{l.ring}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>server</strong>
+                </div>
+                <div class="col-8">
+                    {{l.server}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>pw</strong>
+                </div>
+                <div class="col-8">
+                    ***
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">&nbsp;</div>
+            </div>
+        </div>     
+        {% endfor %}
+        {% endif %}
+        <!-- /LINES -->
+
+        
+        <!-- Func Buttons  icon-other-phone  or icon-dial  -->
+        {% if p.buttons %}
+
+        <div class="panel panel--bordered">
+            <div class="flex-center-vertical">
+                <div class="flex-center" style="width:48px;height:48px">
+                    <span class="icon-other-phone icon-medium"></span>
+                </div>
+                <div class="flex-fluid half-margin-left">
+                    <div class="text-bold text-xlarge">Func Button Configs</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            {% for b in p.buttons %}
+
+            <div class="row">
+                <div class="col-2">
+                    <strong>{{b.button}}</strong>
+                </div>
+                <div class="col-10">
+                    {{b.func}}
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- /Func Buttons -->
+
+
+        <!-- KEM  icon-key-expansion-module  -->
+        {% if p.kem %}
+
+        <div class="panel panel--bordered">
+            <div class="flex-center-vertical">
+                <div class="flex-center" style="width:48px;height:48px">
+                    <span class="icon-key-expansion-module icon-medium"></span>
+                </div>
+                <div class="flex-fluid half-margin-left">
+                    <div class="text-bold text-xlarge">Key Expansion Module</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="row">
+                <div class="col-3">
+                    model
+                </div>
+                <div class="col">
+                    <strong>{{p.kem.model}}</strong>{{b.func}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    number of units
+                </div>
+                <div class="col">
+                    <strong>{{p.kem.number_of_units}}</strong>
+                </div>
+            </div>
+            {% for u in p.kem.units %}
+                <h4>unit {{u.unit}}</h4>
+                {% for b in u.buttons %}
+                <div class="row">
+                    <div class="col-2">
+                        <strong>{{b.button}}</strong>
+                    </div>
+                    <div class="col">
+                        {{b.func}}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- /KEM -->
+
+    </div>
+    <!-- /Right Column -->  
+</div>
+<!-- /Phone Config Body -->
+
+{% endblock %}

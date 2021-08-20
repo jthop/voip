@@ -22,8 +22,8 @@ from flask.logging import default_handler
 
 import models
 import config
-from last_bump import version as __version__
-from last_bump import hexdigest
+
+__version__ = config.APP_VERSION
 
 ###########################################
 
@@ -46,7 +46,7 @@ app.logger.info('====================================')
 app.logger.info(f' nps v{__version__}')
 app.logger.info(' by @jthop <jh@mode14.com>')
 app.logger.info('------------------------------------')
-app.logger.info(f' source hash: { hexdigest[0:7] }')
+app.logger.info(f' source sha256: { config.SOURCE_SHA[0:7] }')
 app.logger.info(f' config v{ config.__version__ }')
 app.logger.info(f' dynamodb model v{ models.Phone.Meta.__version__ }')
 app.logger.info('------------------------------------')
@@ -73,17 +73,13 @@ def render_xml(*args, **kwargs):
 
 @app.route('/')
 def main_page():
-    return render_template('index.html')
-
-
-@app.route('/phones/all')
-def all_phones():
-    return render_template('all_phones.html',
+    return render_template('cisco/index.html',
+            c=config,
             phones=models.Phone.scan()
         )
 
 
-@app.route('/phones/<mac>')
+@app.route('/phone/<mac>')
 def single_phone(mac):
     try:
         phone = models.Phone.get(mac)
@@ -91,7 +87,9 @@ def single_phone(mac):
         app.logger.error(f'404 - mac: {mac}')
         abort(404)
 
-    return render_template('single_phone.html',
+    return render_template('cisco/phone.html',
+            c=config,
+            phones=models.Phone.scan(),
             p=phone
         )
 
