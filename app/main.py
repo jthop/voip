@@ -22,12 +22,13 @@ from flask.logging import default_handler
 
 import models
 import config
+import forms
 
 __version__ = config.APP_VERSION
 
 ###########################################
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 app.config.from_object('config.AppConfig')
 
 
@@ -67,17 +68,51 @@ def render_xml(*args, **kwargs):
     r.mimetype = 'application/xml'
     return r
 
+@app.context_processor
+def inject_into_flask():
+    """
+    Anything inside the dict returned below
+    will be available to all flask templates.
+    """
+
+    vars = {
+        'c': config,
+        'phones': models.Phone.scan()
+    }
+
+    return vars
+
 
 ###########################################
 
 
 @app.route('/')
 def main_page():
-    return render_template('cisco/index.html',
-            c=config,
-            phones=models.Phone.scan()
-        )
+    return render_template('cisco/index.html')
 
+
+@app.route('/phone/edit/<mac>')
+def edit_phone(mac):
+    try:
+        phone = models.Phone.get(mac)
+    except models.Phone.DoesNotExist:
+        app.logger.error(f'404 - mac: {mac}')
+        abort(404)
+
+    form = forms.BasicConfig(obj=phone)
+
+    if form.validate_on_submit():
+        form.populate_obj(phone)
+        phone.save()
+        # success flash msg
+        return redirect('/articles')
+
+    return render_template(
+        'cisco/phone_edit.html', 
+        last_mac=mac,
+        form=form,
+        p=phone
+    )
 
 @app.route('/phone/<mac>')
 def single_phone(mac):
@@ -88,8 +123,7 @@ def single_phone(mac):
         abort(404)
 
     return render_template('cisco/phone.html',
-            c=config,
-            phones=models.Phone.scan(),
+            last_mac=mac,
             p=phone
         )
 

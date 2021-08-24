@@ -1,0 +1,121 @@
+{% extends "cisco/base.html" %}
+{% block title %} {{ p.location }} - {{ p.extension }} {% endblock %}
+{% block content %}
+
+
+ <div id="phoneHeader" class="section">
+
+    <div class="clearfix">
+        <div class="pull-left">
+            <h2>
+                <span class="icon-save"></span>
+                < <a href="/cp/conf/{{ p.mac }}.xml">
+                    {{ p.mac }}.cfg
+                </a> >
+            </h2>
+            <p>
+                {{ p.__id__ }}
+            </p>
+        </div>
+        <div class="pull-right">
+
+            <a href="" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-plus"></span>
+            </a>
+            <a href="" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-upload"></span>
+            </a>
+            <a href="/phone/edit/{{ p.mac }}" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-edit"></span>
+            </a>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Phone Config Body -->
+<div id="phoneBody" class="row">
+
+    <!-- Left Column -->
+    <div id="leftColumn" class="col-6">
+        
+        <h2><span class="icon-cog"></span> Basic Config</h2>
+
+        <form action="/phone/edit/{{ p.mac }}" method="POST">
+        {{ form.csrf_token }}
+        {% if form.csrf_token.errors %}
+            <div class="warning">You have submitted an invalid CSRF token</div>
+        {% endif %}
+
+        <!-- Basic Config  -->
+        <div id="basicConfig" class="section">
+
+            {% for field in form %}
+            <div class="row">
+                <div class="col-5">
+                    {{ field.label }}
+                </div>
+                <div class="col">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <!-- /Basic Config -->
+
+        <input type="submit" value="Submit">
+        </form>
+
+    </div>
+    <!-- /Left Column --> 
+
+    <!-- Right Column -->     
+    <div id="rightColumn" class="col-md-6">
+
+        <!-- SIP Lines  icon-dual-line  -->
+        {% if p.lines %}
+
+        <h2><span class="icon-new-call"></span> Sip Lines</h2>
+
+        {% for l in p.lines %}
+        <div class="section">
+
+        </div>     
+        {% endfor %}
+        {% endif %}
+        <!-- /LINES -->
+
+        
+        <!-- Func Buttons  icon-other-phone  or icon-dial  -->
+        {% if p.buttons %}
+
+        <h2><span class="icon-other-phone"></span> Button Configs</h2>
+
+        <div class="section">
+
+        </div>
+        {% endif %}
+        <!-- /Func Buttons -->
+
+
+        <!-- KEM  icon-key-expansion-module  -->
+        {% if p.kem %}
+
+        <h2><span class="icon-key-expansion-module"></span> Key Expansion Module</h2>
+
+        <div class="section">
+
+        </div>
+        {% endif %}
+        <!-- /KEM -->
+
+    </div>
+    <!-- /Right Column -->  
+</div>
+<!-- /Phone Config Body -->
+
+{% endblock %}
+
+<a class="btn btn--large" href="/additional/3049a9bbb3">Sketch Template<span class="qtr-margin-left icon-download"></span></a>

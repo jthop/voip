@@ -22,7 +22,11 @@
                 <ul id="rootSidebar">
                     <!-- sidebar__item--selected -->
                     {% for p in phones %}
-                        <li class="sidebar__item"><a onclick="doNav('/phone/{{ p.mac }}')">
+                        {% if (last_mac) and (last_mac == p.mac)  %}
+                            <li class="sidebar__item--selected"><a onclick="doNav('/phone/{{ p.mac }}')">
+                        {% else %}
+                            <li class="sidebar__item"><a onclick="doNav('/phone/{{ p.mac }}')">
+                        {% endif %}
                             {{ p.location }} ({{ p.pretty_mac.cisco }})
                         </a></li>
                     {% endfor %}
@@ -31,12 +35,12 @@
             <main>
                 <header id="npsHeader" class="header">
                     <div class="header-bar container">
-                        <a class="btn btn--small btn--icon toggle-menu">
+                        <a class="btn btn--medium btn--icon toggle-menu">
                             <span class="icon-list-menu"></span>
                         </a>
-                        <a class="header-bar__logo">
+                        <!-- <a class="header-bar__logo">
                             <span class="icon-desk-phone"></span>
-                        </a>
+                        </a> -->
                         <div class="header-bar__main">
                             <div class="header-breadcrumbs">
                                 <ul class="breadcrumb">
@@ -50,14 +54,11 @@
                             </div>
                         </div>
                         <div class="header-toolbar">
-                            <a class="btn btn--small btn--icon">
-                                <span class="icon-search"></span>
+                            <a href="/cp/dir.xml" class="btn btn--medium btn--icon">
+                                <span class="icon-directory"></span>
                             </a>
-                            <a class="btn btn--small btn--icon">
-                                <span class="icon-alert"></span>
-                            </a>
-                            <a class="btn btn--small btn--icon">
-                                <span class="icon-cog"></span>
+                            <a href="/logout" class="btn btn--medium btn--icon">
+                                <span class="icon-sign-out"></span>
                             </a>
                         </div>
                     </div>
@@ -74,20 +75,20 @@
                         <ul class="list">
                             <li>powered by mode14</li>
                             <li>version <strong>{{c.APP_VERSION}}</strong></li>
-                            <li class="text-small">node: <strong>{{c.DOCKER_HOSTNAME}}</strong></li>
-                            <li class="text-small">instance: <strong>{{c.INSTANCE_ID}}</strong></li>
-                            <li class="text-small">sha sum: <strong>{{c.SOURCE_SHA}}</strong></li>
+                            <li>sha: <strong>{{c.SOURCE_SHA}}</strong></li>
+                            <li>node id: <strong>{{c.DOCKER_HOSTNAME}}</strong></li>
+                            <li>instance id: <strong>{{c.INSTANCE_ID}}</strong></li>
                         </ul>
                     </div>
                     <div class="footer__legal">
                         <div class="footer__logo">
                             <a href="" target="_blank">
-                                <span class="icon-desk-phone"></span>
+                                <span class="icon-asterisk"></span>
                             </a>
                         </div>
                         <div class="footer__copyright">
-                            <div>copyright &copy; 2021 mode14.</div>
-                            <div>all rights reserved.</div>
+                            <div>Copyright &copy; 2021 mode14.</div>
+                            <div>#LawyerUp</div>
                         </div>
                     </div>
                 </footer>

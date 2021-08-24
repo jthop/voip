@@ -1,154 +1,224 @@
 {% extends "cisco/base.html" %}
-{% block title %}All Phones{% endblock %}
+{% block title %} {{ p.location }} - {{ p.extension }} {% endblock %}
 {% block content %}
 
 
  <div id="phoneHeader" class="section">
-    <h1>
-       <{{p.extension}}.{{p.location}}.config>
-    </h1>
-    <p>__id__: {{p.__id__}} / schema: v{{p.__version__}}</p>
+
+    <div class="clearfix">
+        <div class="pull-left">
+            <h2>
+                <span class="icon-save"></span>
+                < <a href="/cp/conf/{{ p.mac }}.xml">
+                    {{ p.mac }}.cfg
+                </a> >
+            </h2>
+            <p>
+                {{ p.__id__ }}
+            </p>
+        </div>
+        <div class="pull-right">
+
+            <a href="" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-plus"></span>
+            </a>
+            <a href="" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-upload"></span>
+            </a>
+            <a href="/phone/edit/{{ p.mac }}" class="btn btn--icon btn--large btn--primary-ghost">
+                <span class="icon-edit"></span>
+            </a>
+
+        </div>
+    </div>
+
 </div>
 
 <!-- Phone Config Body -->
 <div id="phoneBody" class="row">
 
     <!-- Left Column -->
-    <div id="leftColumn" class="col-md-6">
+    <div id="leftColumn" class="col-6">
+        
+        <h2><span class="icon-info-outline"></span> Metadata</h2>
+        <!-- metadata -->
+        <div id="metadata" class="section">
 
-        <div class="panel panel--bordered">
-            <div class="flex-center-vertical">
-                <div class="flex-center" style="width:48px;height:48px">
-                    <span class="icon-cog icon-medium"></span>
-                </div>
-                <div class="flex-fluid half-margin-left">
-                    <div class="text-bold text-xlarge">Basic Config</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Basic Config   icon-cog -->
-        <div id="basicConfig" class="section">
             <div class="row">
-                <div class="col-md-4">
-                    <strong>Mac</strong>
+                <div class="col-4">
+                    <strong>Config</strong>
                 </div>
-                <div class="col-md-8">
-                    {{ p.pretty_mac.cisco }}
+                <div class="col-8">
+                    v{{ p.__version__ }}.0
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
+                    <strong>Schema Version</strong>
+                </div>
+                <div class="col-8">
+                    v{{ p.__schema__ }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
                     <strong>Created</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.__created_at__.strftime('%m/%d/%Y %H:%M:%S') }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Updated</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.__updated_at__.strftime('%m/%d/%Y %H:%M:%S') }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <strong>Last IP</strong>
+                <div class="col-4">
+                    <strong>Last Provisioned</strong>
                 </div>
-                <div class="col-md-8">
-                    {{ p.ip }}
+                <div class="col-8">
+                    {{ p.__provisioned_at__.strftime('%m/%d/%Y %H:%M:%S') }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
+                    <strong>Last Reported</strong>
+                </div>
+                <div class="col-8">
+                    {{ p.__reported_at__.strftime('%m/%d/%Y %H:%M:%S') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <strong>Last IP</strong>
+                </div>
+                <div class="col-8">
+                    {{ p.ip }}
+                </div>
+            </div>
+
+        </div>
+        <!-- /metadata  -->
+
+        <h2><span class="icon-cog"></span> Basic Config</h2>
+
+        <!-- Basic Config   icon-cog -->
+        <div id="basicConfig" class="section">
+            <div class="row">
+                <div class="col-4">
+                    <strong>Mac</strong>
+                </div>
+                <div class="col-8">
+                    {{ p.pretty_mac.cisco }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
                     <strong>Serial</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.serial }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Ext</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.extension }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>DID</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.did }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Location</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.location }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Station</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.station_name }}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Prefer Dark</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {% if p.dark_room == True %} Yes {% else %} No {% endif %}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
                     <strong>Remote</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {% if p.remote == True %} Yes {% else %} No {% endif %}
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <strong>Additional Cfg</strong>
+                <div class="col-4">
+                    <strong>Additional Config</strong>
                 </div>
-                <div class="col-md-8">
-                    {{ p.additional_template or 'No' }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Alternate Cfg</strong>
-                </div>
-                <div class="col-md-8">
-                    {{ p.alternate_template  or 'No'}}
+                <div class="col-8">
+                    {% if p.additional_template %}
+                        <a href="/_additional/{{ p.mac }}">{{ p.mac }}_additional.cfg
+                        <span class="qtr-margin-left icon-download"></span>
+                        </a>
+                    {% else %}
+                        No
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-4">
+                    <strong>Alternate Config</strong>
+                </div>
+                <div class="col-8">
+                    {% if p.alternate_template %}
+                        <a href="/_alternate/{{ p.mac }}">{{ p.mac }}_alternate.cfg
+                        <span class="qtr-margin-left icon-download"></span>
+                        </a>
+                    {% else %}
+                        No
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
                     <strong>Model</strong>
                 </div>
-                <div class="col-md-8">
+                <div class="col-8">
                     {{ p.model }}
                 </div>
             </div>
@@ -159,42 +229,43 @@
         </div>
         <!-- /Basic Config -->
 
-        <h5 id="modelTitle">{{ p.model }}</h5>
+        <!--  icon-account  -->
+        <h5><span class="icon-list-view"></span> {{ p.model }}</h5>
         <!-- Model -->  
         <div id="modelConfig" class="section">
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
+                <div class="col-1"></div>
+                <div class="col-4">
                     <strong>Available Buttons</strong>
                 </div>
-                <div class="col-md-7">
+                <div class="col-7">
                     {{ p.features.buttons }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
+                <div class="col-1"></div>
+                <div class="col-4">
                     <strong>Video Capable</strong>
                 </div>
-                <div class="col-md-7">
+                <div class="col-7">
                     {% if p.features.video == True %} Yes {% else %} No {% endif %}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
+                <div class="col-1"></div>
+                <div class="col-4">
                     <strong>Wifi Capable</strong>
                 </div>
-                <div class="col-md-7">
+                <div class="col-7">
                     {% if p.features.wifi == True %} Yes {% else %} No {% endif %}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
+                <div class="col-1"></div>
+                <div class="col-4">
                     <strong>Bluetooth Capable</strong>
                 </div>
-                <div class="col-md-7">
+                <div class="col-7">
                     {% if p.features.bluetooth == True %} Yes {% else %} No {% endif %}
                 </div>
             </div>
@@ -205,21 +276,12 @@
     <!-- /Left Column --> 
 
     <!-- Right Column -->     
-    <div id="rightColumn" class="col-md-6">
+    <div id="rightColumn" class="col-6">
 
         <!-- SIP Lines  icon-dual-line  -->
         {% if p.lines %}
 
-        <div class="panel panel--bordered">
-            <div class="flex-center-vertical">
-                <div class="flex-center" style="width:48px;height:48px">
-                    <span class="icon-dual-line icon-medium"></span>
-                </div>
-                <div class="flex-fluid half-margin-left">
-                    <div class="text-bold text-xlarge">Line Button Configs</div>
-                </div>
-            </div>
-        </div>
+        <h2><span class="icon-new-call"></span> Sip Lines</h2>
 
         {% for l in p.lines %}
         <div class="section">
@@ -291,25 +353,16 @@
         <!-- Func Buttons  icon-other-phone  or icon-dial  -->
         {% if p.buttons %}
 
-        <div class="panel panel--bordered">
-            <div class="flex-center-vertical">
-                <div class="flex-center" style="width:48px;height:48px">
-                    <span class="icon-other-phone icon-medium"></span>
-                </div>
-                <div class="flex-fluid half-margin-left">
-                    <div class="text-bold text-xlarge">Func Button Configs</div>
-                </div>
-            </div>
-        </div>
+        <h2><span class="icon-other-phone"></span> Button Configs</h2>
 
         <div class="section">
             {% for b in p.buttons %}
 
             <div class="row">
-                <div class="col-2">
-                    <strong>{{b.button}}</strong>
+                <div class="col-1">
+                    <strong>{{ b.button }}</strong>
                 </div>
-                <div class="col-10">
+                <div class="col">
                     {{b.func}}
                 </div>
             </div>
@@ -323,16 +376,7 @@
         <!-- KEM  icon-key-expansion-module  -->
         {% if p.kem %}
 
-        <div class="panel panel--bordered">
-            <div class="flex-center-vertical">
-                <div class="flex-center" style="width:48px;height:48px">
-                    <span class="icon-key-expansion-module icon-medium"></span>
-                </div>
-                <div class="flex-fluid half-margin-left">
-                    <div class="text-bold text-xlarge">Key Expansion Module</div>
-                </div>
-            </div>
-        </div>
+        <h2><span class="icon-key-expansion-module"></span> Key Expansion Module</h2>
 
         <div class="section">
             <div class="row">
@@ -355,7 +399,7 @@
                 <h4>unit {{u.unit}}</h4>
                 {% for b in u.buttons %}
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-1">
                         <strong>{{b.button}}</strong>
                     </div>
                     <div class="col">
@@ -374,3 +418,5 @@
 <!-- /Phone Config Body -->
 
 {% endblock %}
+
+<a class="btn btn--large" href="/additional/3049a9bbb3">Sketch Template<span class="qtr-margin-left icon-download"></span></a>

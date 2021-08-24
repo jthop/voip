@@ -173,6 +173,7 @@ p = Phone(
     station_name = '201 - Master',
     did = '214.444.9969',
     additional_template = 'jamie.xml',
+    dark_room = True,
     lines = [
         Line(button=1, server='10.10.30.30', secret='201'),
         Line(button=2, server='10.10.20.10', secret='201', label='Control4', 
@@ -205,6 +206,7 @@ p = Phone(
     extension = 202,
     station_name = '202 - Master',
     did = '214.444.9979',
+    dark_room = True,
     lines = [
         Line(button=1, server='10.10.30.30', secret='202'),
         Line(button=2, server='10.10.20.10', secret='202', 
@@ -239,6 +241,7 @@ p = Phone(
     extension = 205,
     station_name = '205 - James',
     did = '214.444.9940',
+    dark_room = True,
     lines = [
         Line(button=1, server='10.10.30.30', secret='205', label='$DID')
     ],
@@ -264,6 +267,7 @@ p = Phone(
     location = 'Exercise',
     extension = 208,
     station_name = '208 - Exercise',
+    dark_room = True,
     lines = [
         Line(button=1, server='10.10.30.30', secret='208', label='$EXT'),
     ])
@@ -287,6 +291,7 @@ p = Phone(
     extension = 209,
     station_name = '209 - Guest',
     did = '214.444.5509',
+    dark_room = True,
     lines = [
         Line(button=1, server='10.10.30.30', secret='209'),
     ],

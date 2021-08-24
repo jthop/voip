@@ -10,12 +10,12 @@
 #from __future__ import annotations
 
 import os
-import yaml
 from pathlib import Path
 from uuid import uuid4
 from datetime import datetime
 from flask import current_app as app
 from flask import request
+from flask import current_app as app
 
 from pynamodb.models import Model
 from pynamodb.attributes import BooleanAttribute
@@ -30,7 +30,7 @@ from pynamodb.attributes import VersionAttribute
 from pynamodb_attributes import UUIDAttribute
 
 import config
-from flask import current_app as app
+import cache
 
 ALLOWED_SERVER_TYPES = {"Asterisk", "Broadsoft", 'SPA9000', 'RFC3265_4235', 'Sylantro'}
 ALLOWED_KEM_TYPES = {'BEKEM', 'CP-8800-Audio', 'CP-8800-Video'}
@@ -92,7 +92,6 @@ class Button(MapAttribute):
     button = NumberAttribute()
     func = UnicodeAttribute()
 
-
 """
 ===================================
          Wifi Attribute
@@ -104,7 +103,7 @@ an SSID changes... Would be better to reuse these.
 
 
 class WifiConfig(MapAttribute):
-    _id = UnicodeAttribute()
+    __id__ = UUIDAttribute(default=uuid4())
     psk = UnicodeAttribute(null=True)
     password = UnicodeAttribute(null=True)
     security = UnicodeAttribute(default='PSK')
@@ -176,21 +175,22 @@ class Phone(Model):
         write_capacity_units = 5
         read_capacity_units = 5
         # All your metadata are belong to us - above belong to pynamodb 
-        __version__ = '1.7'
+        __version__ = '1.8'
 
-    __version__ = UnicodeAttribute(null=True, default=Meta.__version__)
     __id__ = UUIDAttribute(default=uuid4())
-    __writes__ = VersionAttribute()
+    __schema__ = UnicodeAttribute(null=True, default=Meta.__version__)
+    __version__ = VersionAttribute()
     __created_at__ = UTCDateTimeAttribute(default=datetime.now)
     __updated_at__ = UTCDateTimeAttribute(default=EPOCH)
     __provisioned_at__ = UTCDateTimeAttribute(default=EPOCH)
-
+    __reported_at__ = UTCDateTimeAttribute(default=EPOCH)
+    
+    ip = UnicodeAttribute(null=True)
     additional_template = UnicodeAttribute(null=True)
     alternate_template = UnicodeAttribute(null=True)
     dark_room = BooleanAttribute(null=True)
     extension = NumberAttribute()
     did = UnicodeAttribute(null=True)
-    ip = UnicodeAttribute(null=True)
     location = UnicodeAttribute(null=True)
     mac = UnicodeAttribute(hash_key=True)
     model = UnicodeAttribute(null=True, default='')
@@ -198,6 +198,7 @@ class Phone(Model):
     serial = UnicodeAttribute(null=True)
     station_name = UnicodeAttribute(null=True)  # {extension} - {location}
     sys_id = NumberAttribute(default=1)
+
 
     buttons = ListAttribute(of=Button, null=True)
     lines = ListAttribute(of=Line, null=True)
@@ -252,10 +253,7 @@ class Phone(Model):
         already from pynamodb
         """
 
-        with open(config.PHONE_MODELS.absolute()) as f:
-            models = yaml.load(f, Loader=yaml.SafeLoader)
-
-        m = models.get(phone.model)
+        m = cache.models.get(phone.model)
         if m is None:
             raise ValueError(f'no model: {phone.model}')
 
@@ -276,10 +274,8 @@ class Phone(Model):
         Lookup and the system specific config.  This is everything specific
         to the local pbx.  IPs, domains, provisioning configs, etc.
         """
-        with open(config.SYSTEMS.absolute()) as f:
-            systems = yaml.load(f, Loader=yaml.SafeLoader)
 
-        phone._sys = systems.get(phone.sys_id)
+        phone._sys = cache.systems.get(phone.sys_id)
 
         return phone
 
@@ -418,5 +414,5 @@ class Phone(Model):
 
         return sorted(set(avail_nums).difference(all_nums))
 
-# if not Phone.exists():
-#     Phone.create_table(wait=True)
+if not Phone.exists():
+    Phone.create_table(wait=True)

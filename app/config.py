@@ -57,3 +57,5 @@ PYNAMODB_VERSION = pkg_resources.get_distribution("pynamodb").version
 class AppConfig(object):    
     SECRET_KEY = environ.get('FLASK_SECRET', 'is-this-even-necessary')
     APP_NAME = 'voip'
+    STATIC_FOLDER = 'static'
+    TEMPLATES_FOLDER = 'templates'
